@@ -134,7 +134,7 @@ function EmployeeList({ data, header,handleRemove,startEditing }: ValueData) {
       <TablePagination
           style={{textAlign:"right",width:"100%",borderBottom:"none"}}
             rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-            colSpan={3}
+            colSpan={12}
             count={data.length}
             rowsPerPage={rowsPerPage}
             page={page}
