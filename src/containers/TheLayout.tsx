@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import TheSidebar from './TheSidebar';
 import TheHeader from './TheHeader';
 import TheFooter from './TheFooter';
@@ -28,15 +28,15 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
 }));
 function TheLayout(): JSX.Element {
     const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
-
+  const [open, setOpen] = useState(true);
+  
   return (
     <div className="default-layout">
       <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <TheSidebar open={open} setOpen={setOpen} theme={theme} drawerWidth={drawerWidth}/>
       <Wrapper>
-        <TheHeader setOpen={setOpen} />
+        <TheHeader open={open} setOpen={setOpen} theme={theme} drawerWidth={drawerWidth}/>
         <Body>
           <Main open={open} style={{padding:"64px 0px 0px"}}>
             <TheContent />
