@@ -3,7 +3,7 @@ import { Formik, Field, Form, FormikProps, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { FormGroup, Label } from '../styled';
 import { QueryCache, useMutation, useQuery } from 'react-query';
-import { getEmployee, postEmployee,putEmployee,deleteEmployee } from '../../../api/EmployeeAPI';
+import { putEmployee } from '../../../api/EmployeeAPI';
 
 function StaffEdit(props: any) {
   const emailRex = /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/;

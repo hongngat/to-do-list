@@ -9,7 +9,7 @@ import Modal from '@mui/material/Modal';
 import { TableBox, style } from './styled';
 import StaffEdit from './containers/StaffEdit';
 import { QueryCache, useMutation, useQuery, useQueryClient } from 'react-query';
-import { getEmployee, postEmployee, putEmployee, deleteEmployee } from '../../api/EmployeeAPI';
+import { getEmployee,  deleteEmployee } from '../../api/EmployeeAPI';
 import Loader from 'react-loader-spinner';
 const Home = () => {
   const removeEmployee = useMutation(deleteEmployee);
