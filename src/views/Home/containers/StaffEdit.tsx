@@ -2,13 +2,18 @@ import React, { useState } from 'react';
 import { Formik, Field, Form, FormikProps, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { FormGroup, Label } from '../styled';
+import { QueryCache, useMutation, useQuery } from 'react-query';
+import { getEmployee, postEmployee,putEmployee,deleteEmployee } from '../../../api/EmployeeAPI';
 
 function StaffEdit(props: any) {
   const emailRex = /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/;
   const phonenumberRex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
 
-  const onSubmit = (fields: any) => {
-    props.callbackValueEdit(fields);
+  const {mutateAsync,isLoading:isMutating} = useMutation(putEmployee);
+  const onSubmit = async (fields: any) => {
+    const id =fields.staffcode
+    await mutateAsync({...fields,id})
+    props.setOpenEdit(false);
   };
 
   return (
@@ -20,6 +25,7 @@ function StaffEdit(props: any) {
           fullname: props.dataEditing.fullname,
           phonenumber: props.dataEditing.phonenumber,
           email: props.dataEditing.email,
+          birthdate:props.dataEditing.birthdate
         }}
         validationSchema={Yup.object().shape({
           fullname: Yup.string().required('First Name is required'),
@@ -77,6 +83,17 @@ function StaffEdit(props: any) {
                 className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')}
               />
               <ErrorMessage name="email" component="div" className="invalid-feedback" />
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor="birthdate">Ngày sinh</Label>
+              <Field
+                name="birthdate"
+                type="date"
+                className={
+                  'form-control' + (errors.birthdate && touched.birthdate ? ' is-invalid' : '')
+                }
+              />
+              <ErrorMessage name="birthdate" component="div" className="invalid-feedback" />
             </FormGroup>
             <div className="btnSubmit">
               <button type="submit">Sửa</button>

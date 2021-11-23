@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import EmployeeList from './containers/EmployeeList';
 import StaffAdd from './containers/StaffAdd';
 import { Container } from '@mui/material';
@@ -6,86 +6,58 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import Modal from '@mui/material/Modal';
-import { TableBox } from './styled';
+import { TableBox, style } from './styled';
 import StaffEdit from './containers/StaffEdit';
-interface ValueData {
-  data?: any;
-  header?: any;
-  handleRemove?: any;
-}
-function Home() {
-  const employeeData = JSON.parse(localStorage.getItem('EmployeeList') || '{}');
-  const [data, setData] = useState(employeeData);
-  const [open, setOpen] = useState(false);
+import { QueryCache, useMutation, useQuery, useQueryClient } from 'react-query';
+import { getEmployee, postEmployee, putEmployee, deleteEmployee } from '../../api/EmployeeAPI';
+import Loader from 'react-loader-spinner';
+const Home = () => {
+  const removeEmployee = useMutation(deleteEmployee);
+  const [openAdd, setOpenAdd] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openError, setOpenError] = useState(false);
   const [dataEditing, setDataEditing] = useState();
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpenAdd = () => setOpenAdd(true);
+  const handleCloseAdd = () => setOpenAdd(false);
   const handleCloseEdit = () => setOpenEdit(false);
   const handleCloseError = () => {
     setOpenError(false);
-    setOpen(true);
+    setOpenAdd(true);
   };
-  const callbackFunction = (childData: any) => {
-    const dataVali = data.filter(
-      (d: any) => d.fullname === childData.fullname || d.email === childData.email
-    );
-    if (dataVali.length > 0) {
-      setOpenError(true);
-      setOpen(false);
-    } else {
-      const updatedCarsArray: any = [...data, childData];
-      setData(updatedCarsArray);
-      localStorage.setItem('EmployeeList', JSON.stringify(updatedCarsArray));
-      setOpen(false);
-    }
+  const { data, status, isLoading } = useQuery('employeeLists', getEmployee);
+  const queryClient = useQueryClient();
+  const handleRemove = (i: any) => {
+    const dataRemove: any = data.filter((row: any, j: any) => j === i);
+    removeEmployee.mutateAsync(dataRemove[0].staffcode);
+    queryClient.invalidateQueries('employeeLists');
   };
 
-  const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
-  const handleRemove = (i: any) => {
-    const dataRemove: any = data.filter((row: any, j: any) => j !== i);
-    localStorage.setItem('EmployeeList', JSON.stringify(dataRemove));
-    setData(dataRemove);
-  };
   const startEditing = (i: any, x: any) => {
     setDataEditing(x);
     setOpenEdit(true);
   };
-  const callbackFunctionEdit = (fields: any) => {
-     const dataEditing = data.map((item: any) => {return item.staffcode === fields.staffcode ? fields : item})
-    setData(dataEditing);
-    localStorage.setItem('EmployeeList', JSON.stringify(dataEditing));
-    setOpenEdit(false);
-  };
+
+  if (isLoading) {
+    return <Loader type="ThreeDots" color="#CCC" height={30} />;
+  }
   return (
     <div className="pageContent home">
       <Container maxWidth="xl">
         <TableBox.Box>
           <TableBox.TableIcon>
-            <TableBox.ButtonIcon onClick={handleOpen}>
+            <TableBox.ButtonIcon onClick={handleOpenAdd}>
               <AddIcon />
             </TableBox.ButtonIcon>
           </TableBox.TableIcon>
           <Modal
-            open={open}
-            onClose={handleClose}
+            open={openAdd}
+            onClose={handleCloseAdd}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              <StaffAdd callbackValue={callbackFunction} />
+              <StaffAdd setOpenError={setOpenError} setOpenAdd={setOpenAdd} data={data} />
             </Box>
           </Modal>
           <Modal
@@ -95,7 +67,7 @@ function Home() {
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              <StaffEdit callbackValueEdit={callbackFunctionEdit} dataEditing={dataEditing} />
+              <StaffEdit setOpenEdit={setOpenEdit} dataEditing={dataEditing} />
             </Box>
           </Modal>
           <Modal open={openError} onClose={handleCloseError}>
@@ -130,12 +102,8 @@ function Home() {
                 prop: 'email',
               },
               {
-                name: '',
-                prop: 'edit',
-              },
-              {
-                name: '',
-                prop: 'deleted',
+                name: 'Ngày sinh',
+                prop: 'birthdate',
               },
             ]}
           />
@@ -143,6 +111,6 @@ function Home() {
       </Container>
     </div>
   );
-}
+};
 
 export default Home;

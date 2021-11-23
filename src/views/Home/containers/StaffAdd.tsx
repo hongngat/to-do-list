@@ -2,15 +2,26 @@ import React, { useState } from 'react';
 import { Formik, Field, Form, FormikProps, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import {FormGroup,Label} from '../styled'
+import { QueryCache, useMutation, useQuery } from 'react-query';
+import { getEmployee, postEmployee,putEmployee,deleteEmployee } from '../../../api/EmployeeAPI';
 
 function StaffAdd(props:any) {
 
   const emailRex = /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/;
   const phonenumberRex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+  const {mutate,isLoading} = useMutation(postEmployee);
 
-  const onSubmit = (fields: any) => {
-
-    props.callbackValue(fields);
+  const onSubmit = async (fields: any) => {
+    const dataVali = props.data.filter(
+      (d: any) => d.fullname === fields.fullname || d.email === fields.email
+    );
+    if (dataVali.length > 0) {
+      props.setOpenError(true);
+      props.setOpenAdd(false);
+    } else {
+      await mutate(fields)
+      props.setOpenAdd(false);
+    }
     
   };
   return (
@@ -22,6 +33,7 @@ function StaffAdd(props:any) {
           fullname: '',
           phonenumber: '',
           email: '',
+          birthdate:''
         }}
         validationSchema={Yup.object().shape({
           fullname: Yup.string().required('First Name is required'),
@@ -78,9 +90,20 @@ function StaffAdd(props:any) {
               />
               <ErrorMessage name="email" component="div" className="invalid-feedback" />
             </FormGroup>
+            <FormGroup>
+              <Label htmlFor="birthdate">Ngày sinh</Label>
+              <Field
+                name="birthdate"
+                type="date"
+                className={
+                  'form-control' + (errors.birthdate && touched.birthdate ? ' is-invalid' : '')
+                }
+              />
+              <ErrorMessage name="birthdate" component="div" className="invalid-feedback" />
+            </FormGroup>
             <div className="btnSubmit">
               <button type="submit" >
-                Thêm
+                {isLoading ? 'loading':'Thêm'}
               </button>
             </div>
           </Form>
