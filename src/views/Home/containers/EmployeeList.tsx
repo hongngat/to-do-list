@@ -16,7 +16,8 @@ interface ValueData {
   data?: any;
   header?: any;
   handleRemove?:any,
-  handleEdit?:any
+  handleEdit?:any,
+  searchForm?:any
 }
 
 const row = (x: any, i: any, header: any,handleRemove:any,handleEdit:any) => (
@@ -33,7 +34,7 @@ const row = (x: any, i: any, header: any,handleRemove:any,handleEdit:any) => (
   </TableRow>
 );
 
-function EmployeeList({ data, header,handleEdit }: ValueData) {
+function EmployeeList({ data, header,handleEdit,searchForm }: ValueData) {
   const removeEmployee = useMutation(deleteEmployee);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -48,7 +49,7 @@ function EmployeeList({ data, header,handleEdit }: ValueData) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
+console.log(searchForm)
   const queryClient = useQueryClient();
   const handleRemove = (i: any) => {
     const dataRemove: any = data.filter((row: any, j: any) => j === i);
@@ -70,7 +71,16 @@ function EmployeeList({ data, header,handleEdit }: ValueData) {
         {(rowsPerPage > 0
           ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
           : data
-        ).map((x: any, i: any) => row(x, i, header,handleRemove,handleEdit))}
+        )
+        .filter((item:any)=>{
+          if(searchForm === ""){
+            return item
+          }
+          else if(item.fullname.toLowerCase().includes(searchForm.toLowerCase())){
+            return item
+          }
+        })
+        .map((x: any, i: any) => row(x, i, header,handleRemove,handleEdit))}
         {dataEmpty == 0 && (
               <TableRow style={{ height: 300 * emptyRows }}>
                 <TableCell colSpan={12} className="emptyCell">

@@ -6,19 +6,18 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import Modal from '@mui/material/Modal';
-import { TableBox, style } from './styled';
+import { TableBox, style,BoxStyle } from './styled';
 import StaffEdit from './containers/StaffEdit';
 import { useQuery} from 'react-query';
 import { getEmployee } from '../../api/EmployeeAPI';
 import Loader from 'react-loader-spinner';
+import Search from './containers/Search'
 const Home = () => {
-  
-
-  const [employeeLists,setEmployeeLists]=useState()
   const [openAdd, setOpenAdd] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openError, setOpenError] = useState(false);
   const [dataEditing, setDataEditing] = useState();
+  const [searchForm, setSearchForm] = useState("");
 
   const handleOpenAdd = () => setOpenAdd(true);
   const handleCloseAdd = () => setOpenAdd(false);
@@ -27,22 +26,28 @@ const Home = () => {
     setOpenError(false);
     setOpenAdd(true);
   };
-  const { data, isLoading ,isError,status} = useQuery(['employeeLists',employeeLists], getEmployee);
-  
-  
+  const { data, isLoading ,isError,status} = useQuery('employeeLists', getEmployee);
 
   const handleEdit = (i: any, x: any) => {
     setDataEditing(x);
     setOpenEdit(true);
   };
 
+    const handleSearch =(fields:any)=>{
+      setSearchForm(fields.searchdata)
+    }
   if (isLoading) {
-    return <Loader type="ThreeDots" color="#CCC" height={30} />;
+    return <div style={{position: "fixed", top: "50%", left: "55%", transform: "translate(-50%, -50%)"}}>
+      <Loader type="ThreeDots" color="#CCC" height={30} />
+      </div>;
   }
  
   return (
     <div className="pageContent home">
       <Container maxWidth="xl">
+        <BoxStyle>
+          <Search callbackSearchData={handleSearch}/>
+        </BoxStyle>
         <TableBox.Box>
           <TableBox.TableIcon>
             <TableBox.ButtonIcon onClick={handleOpenAdd}>
@@ -82,6 +87,7 @@ const Home = () => {
           <EmployeeList
             data={data}
             handleEdit={handleEdit}
+            searchForm={searchForm}
             header={[
               {
                 name: 'Mã nhân viên',

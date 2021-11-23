@@ -50,7 +50,13 @@ export const FormGroup = styled('div')(({ theme }) => ({
     }))
     
   }
-
+  export const BoxStyle = styled('div')(() => ({
+    padding:'30px 20px',
+    borderRadius:'5px',
+    width:'100%',
+    background:'#fff',
+    marginBottom:'30px'
+  }))
   export const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
