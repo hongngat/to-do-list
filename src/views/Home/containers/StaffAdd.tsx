@@ -13,7 +13,7 @@ function StaffAdd(props:any) {
 
   const onSubmit = async (fields: any) => {
     const dataVali = props.data.filter(
-      (d: any) => d.fullname === fields.fullname || d.email === fields.email
+      (d: any) => d.email === fields.email ||d.staffcode === fields.staffcode
     );
     if (dataVali.length > 0) {
       props.setOpenError(true);

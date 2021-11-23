@@ -8,11 +8,13 @@ import AddIcon from '@mui/icons-material/Add';
 import Modal from '@mui/material/Modal';
 import { TableBox, style } from './styled';
 import StaffEdit from './containers/StaffEdit';
-import { QueryCache, useMutation, useQuery, useQueryClient } from 'react-query';
-import { getEmployee,  deleteEmployee } from '../../api/EmployeeAPI';
+import { useQuery} from 'react-query';
+import { getEmployee } from '../../api/EmployeeAPI';
 import Loader from 'react-loader-spinner';
 const Home = () => {
-  const removeEmployee = useMutation(deleteEmployee);
+  
+
+  const [employeeLists,setEmployeeLists]=useState()
   const [openAdd, setOpenAdd] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openError, setOpenError] = useState(false);
@@ -25,15 +27,11 @@ const Home = () => {
     setOpenError(false);
     setOpenAdd(true);
   };
-  const { data, status, isLoading } = useQuery('employeeLists', getEmployee);
-  const queryClient = useQueryClient();
-  const handleRemove = (i: any) => {
-    const dataRemove: any = data.filter((row: any, j: any) => j === i);
-    removeEmployee.mutateAsync(dataRemove[0].staffcode);
-    queryClient.invalidateQueries('employeeLists');
-  };
+  const { data, isLoading ,isError,status} = useQuery(['employeeLists',employeeLists], getEmployee);
+  
+  
 
-  const startEditing = (i: any, x: any) => {
+  const handleEdit = (i: any, x: any) => {
     setDataEditing(x);
     setOpenEdit(true);
   };
@@ -41,6 +39,7 @@ const Home = () => {
   if (isLoading) {
     return <Loader type="ThreeDots" color="#CCC" height={30} />;
   }
+ 
   return (
     <div className="pageContent home">
       <Container maxWidth="xl">
@@ -67,7 +66,7 @@ const Home = () => {
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              <StaffEdit setOpenEdit={setOpenEdit} dataEditing={dataEditing} />
+              <StaffEdit setOpenEdit={setOpenEdit} dataEditing={dataEditing}  />
             </Box>
           </Modal>
           <Modal open={openError} onClose={handleCloseError}>
@@ -82,8 +81,7 @@ const Home = () => {
           </Modal>
           <EmployeeList
             data={data}
-            handleRemove={handleRemove}
-            startEditing={startEditing}
+            handleEdit={handleEdit}
             header={[
               {
                 name: 'Mã nhân viên',

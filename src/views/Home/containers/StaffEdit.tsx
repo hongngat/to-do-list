@@ -9,11 +9,12 @@ function StaffEdit(props: any) {
   const emailRex = /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/;
   const phonenumberRex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
 
-  const {mutateAsync,isLoading:isMutating} = useMutation(putEmployee);
+  const {mutateAsync} = useMutation(putEmployee);
   const onSubmit = async (fields: any) => {
-    const id =fields.staffcode
+    const id = props.dataEditing.id
     await mutateAsync({...fields,id})
     props.setOpenEdit(false);
+    
   };
 
   return (
