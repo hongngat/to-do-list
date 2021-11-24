@@ -33,8 +33,8 @@ const Home = () => {
     setOpenEdit(true);
   };
 
-    const handleSearch =(fields:any)=>{
-      setSearchForm(fields.searchdata)
+    const handleSearch =(searchForm:any)=>{
+      setSearchForm(searchForm)
     }
   if (isLoading) {
     return <div style={{position: "fixed", top: "50%", left: "55%", transform: "translate(-50%, -50%)"}}>
