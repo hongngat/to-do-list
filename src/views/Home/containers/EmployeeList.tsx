@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -38,24 +38,36 @@ function EmployeeList({ data, header,handleEdit,searchForm }: ValueData) {
   const removeEmployee = useMutation(deleteEmployee);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
+  const [dataRow, setDataRow] = useState(data);
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - dataRow.length) : 0;
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
   };
-  const dataEmpty=data.length;
+  const dataEmpty=dataRow.length;
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-console.log(searchForm)
   const queryClient = useQueryClient();
   const handleRemove = (i: any) => {
     const dataRemove: any = data.filter((row: any, j: any) => j === i);
     removeEmployee.mutateAsync(dataRemove[0].id);
     queryClient.invalidateQueries('employeeLists');
   };
+  
+  useEffect(()=>{
+    const dataSearch = data.filter((item: any) => {
+      if (searchForm === "") {
+        return item;
+      }
+      else if (item.fullname.toLowerCase().includes(searchForm.toLowerCase())) {
+        return item;
+      }
+    });
+    setDataRow(dataSearch);
+  })
   return (
     <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
       <TableHead>
@@ -69,17 +81,9 @@ console.log(searchForm)
       </TableHead>
       <TableBody>
         {(rowsPerPage > 0
-          ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-          : data
+          ? dataRow.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+          : dataRow
         )
-        .filter((item:any)=>{
-          if(searchForm === ""){
-            return item
-          }
-          else if(item.fullname.toLowerCase().includes(searchForm.toLowerCase())){
-            return item
-          }
-        })
         .map((x: any, i: any) => row(x, i, header,handleRemove,handleEdit))}
         {dataEmpty == 0 && (
               <TableRow style={{ height: 300 * emptyRows }}>
@@ -94,7 +98,7 @@ console.log(searchForm)
           style={{textAlign:"right",width:"100%",borderBottom:"none"}}
             rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
             colSpan={12}
-            count={data.length}
+            count={dataRow.length}
             rowsPerPage={rowsPerPage}
             page={page}
             SelectProps={{

@@ -5,6 +5,7 @@ function Search(props:any) {
   const onSubmit = async (fields:any) => {
     props.callbackSearchData(fields)
   };
+ 
   return (
     <Formik
         initialValues={{
@@ -18,6 +19,7 @@ function Search(props:any) {
               <Field
                 name="searchdata"
                 type="text"
+                
               />
               </FormGroup>
             <div className="btnSubmit">
