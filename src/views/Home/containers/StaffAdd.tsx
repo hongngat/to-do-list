@@ -30,6 +30,7 @@ function StaffAdd(props:any) {
     }
     
   };
+  
   return (
     <div className="staffAdd">
       <h2 style={{ textAlign: 'left' }}>Add</h2>

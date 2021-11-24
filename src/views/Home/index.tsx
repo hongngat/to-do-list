@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import EmployeeList from './containers/EmployeeList';
 import StaffAdd from './containers/StaffAdd';
 import { Container } from '@mui/material';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import Modal from '@mui/material/Modal';
 import { TableBox, style,BoxStyle } from './styled';
@@ -13,6 +12,7 @@ import { getEmployee } from '../../api/EmployeeAPI';
 import Loader from 'react-loader-spinner';
 import Search from './containers/Search'
 const Home = () => {
+  const { data, isLoading } = useQuery('employeeLists', getEmployee);
   const [openAdd, setOpenAdd] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openError, setOpenError] = useState(false);
@@ -26,7 +26,7 @@ const Home = () => {
     setOpenError(false);
     setOpenAdd(true);
   };
-  const { data, isLoading ,isError,status} = useQuery('employeeLists', getEmployee);
+  
 
   const handleEdit = (i: any, x: any) => {
     setDataEditing(x);
@@ -57,8 +57,6 @@ const Home = () => {
           <Modal
             open={openAdd}
             onClose={handleCloseAdd}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
               <StaffAdd setOpenError={setOpenError} setOpenAdd={setOpenAdd} data={data} />
@@ -67,8 +65,6 @@ const Home = () => {
           <Modal
             open={openEdit}
             onClose={handleCloseEdit}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
               <StaffEdit setOpenEdit={setOpenEdit} dataEditing={dataEditing}  />

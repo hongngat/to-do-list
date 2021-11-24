@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -71,7 +71,7 @@ function EmployeeList({ data, header,handleEdit,searchForm }: ValueData) {
   };
   
   return (
-    <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+    <Table sx={{ minWidth: 500 }} >
       <TableHead>
         <TableRow>
           {header.map((x: any, i: any) => (

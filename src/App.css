@@ -1,84 +1,94 @@
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+    height: 40vmin;
+    pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-float infinite 3s ease-in-out;
-  }
+    .App-logo {
+        animation: App-logo-float infinite 3s ease-in-out;
+    }
 }
 
 .App-header {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
 }
 
 .App-link {
-  color: rgb(112, 76, 182);
+    color: rgb(112, 76, 182);
 }
 
 @keyframes App-logo-float {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(10px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
 }
-.css-hip9hq-MuiPaper-root-MuiAppBar-root{
-  background-color: rgb(141, 110, 204) !important;
+
+.css-hip9hq-MuiPaper-root-MuiAppBar-root {
+    background-color: rgb(141, 110, 204) !important;
 }
-.pageContent{
-  padding: 30px 0px;
+
+.pageContent {
+    padding: 30px 0px;
 }
-.default-layout{
-  background:#EEEEEE;
-  height: 100vh;
+
+.default-layout {
+    background: #EEEEEE;
+    height: 100vh;
 }
-.css-1wnsr1i{
-  border: 0 !important;
-  box-shadow: 0px 0px 10px #8D6ECC !important;
+
+.css-1wnsr1i {
+    border: 0 !important;
+    box-shadow: 0px 0px 10px #8D6ECC !important;
 }
-.btnSubmit{
-  text-align: center;
-  display: block;
-  margin-top: 20px;
+
+.btnSubmit {
+    text-align: center;
+    display: block;
+    margin-top: 20px;
 }
-.btnSubmit button{
-  text-align: center;
-  color: #fff;
-  background-color: #8D6ECC;
-  padding: 15px 20px;
-  border: 0;
-  cursor: pointer;
-  border-radius: 5px;
+
+.btnSubmit button {
+    text-align: center;
+    color: #fff;
+    background-color: #8D6ECC;
+    padding: 15px 20px;
+    border: 0;
+    cursor: pointer;
+    border-radius: 5px;
 }
-.btnSubmit button:focus{
-  outline: 0;
+
+.btnSubmit button:focus {
+    outline: 0;
 }
-.iconStyle{
-  cursor: pointer;
+
+.iconStyle {
+    cursor: pointer;
 }
-.iconStyle:hover{
-  color: #8D6ECC;
+
+.iconStyle:hover {
+    color: #8D6ECC;
 }
-.emptyCell{
-  background-color: rgba(230, 223, 243, 0.2);
-  padding: 100px 0px !important;
-  text-align: center !important;
-  font-size: 16px !important;
-  font-weight: bold !important;
-  color: rgba(0, 0, 0, 0.87) !important;
+
+.emptyCell {
+    background-color: rgba(230, 223, 243, 0.2);
+    padding: 100px 0px !important;
+    text-align: center !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    color: rgba(0, 0, 0, 0.87) !important;
 }
