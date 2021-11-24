@@ -10,9 +10,7 @@ function Search(props:any) {
   const handleSubmit = async (fields:any) => {
     setSearchForm(fields.target.value)
   };
-  useEffect(()=>{
-    props.callbackSearchData(searchForm)
-  })
+  props.callbackSearchData(searchForm)
   return (
     <form onSubmit={handleSubmit}>
             <FormGroup>

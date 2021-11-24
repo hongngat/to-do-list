@@ -2,14 +2,20 @@ import React, { useState } from 'react';
 import { Formik, Field, Form, FormikProps, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import {FormGroup,Label} from '../styled'
-import { QueryCache, useMutation, useQuery } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import {  postEmployee } from '../../../api/EmployeeAPI';
 
 function StaffAdd(props:any) {
 
   const emailRex = /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/;
   const phonenumberRex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
-  const {mutate,isLoading} = useMutation(postEmployee);
+
+  const queryClient = useQueryClient()
+  const {mutate,isLoading} = useMutation(postEmployee,
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('employeeLists');
+      },});
 
   const onSubmit = async (fields: any) => {
     const dataVali = props.data.filter(

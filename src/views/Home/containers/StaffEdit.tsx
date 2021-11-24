@@ -2,14 +2,19 @@ import React, { useState } from 'react';
 import { Formik, Field, Form, FormikProps, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { FormGroup, Label } from '../styled';
-import { QueryCache, useMutation, useQuery } from 'react-query';
+import { QueryCache, useMutation, useQueryClient } from 'react-query';
 import { putEmployee } from '../../../api/EmployeeAPI';
 
 function StaffEdit(props: any) {
   const emailRex = /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/;
   const phonenumberRex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
 
-  const {mutateAsync} = useMutation(putEmployee);
+  const queryClient = useQueryClient()
+  const {mutateAsync} = useMutation(putEmployee,
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('employeeLists');
+      },});
   const onSubmit = async (fields: any) => {
     const id = props.dataEditing.id
     await mutateAsync({...fields,id})

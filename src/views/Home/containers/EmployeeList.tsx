@@ -35,10 +35,24 @@ const row = (x: any, i: any, header: any,handleRemove:any,handleEdit:any) => (
 );
 
 function EmployeeList({ data, header,handleEdit,searchForm }: ValueData) {
-  const removeEmployee = useMutation(deleteEmployee);
+  const {mutateAsync} = useMutation(deleteEmployee,
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('employeeLists');
+      },});
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [dataRow, setDataRow] = useState(data);
+  
+  const dataRow = data.filter((item: any) => {
+    if (searchForm === "") {
+      return item;
+    }
+    else if (item.fullname.toLowerCase().includes(searchForm.toLowerCase())) {
+      return item;
+    }
+  });
+
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - dataRow.length) : 0;
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -51,23 +65,11 @@ function EmployeeList({ data, header,handleEdit,searchForm }: ValueData) {
     setPage(0);
   };
   const queryClient = useQueryClient();
-  const handleRemove = (i: any) => {
-    const dataRemove: any = data.filter((row: any, j: any) => j === i);
-    removeEmployee.mutateAsync(dataRemove[0].id);
-    queryClient.invalidateQueries('employeeLists');
+  const handleRemove = async (i: any) => {
+    const dataRemove:any = data.filter((row: any, j: any) => j === i);
+    await mutateAsync(dataRemove[0].id);
   };
   
-  useEffect(()=>{
-    const dataSearch = data.filter((item: any) => {
-      if (searchForm === "") {
-        return item;
-      }
-      else if (item.fullname.toLowerCase().includes(searchForm.toLowerCase())) {
-        return item;
-      }
-    });
-    setDataRow(dataSearch);
-  })
   return (
     <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
       <TableHead>
