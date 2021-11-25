@@ -3,7 +3,7 @@ import EmployeeList from './components/EmployeeList';
 import StaffAdd from './components/StaffAdd';
 import { Container } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { TableBox, style, BoxStyle } from './styled';
+import { TableBox, BoxStyle } from './styled';
 import StaffEdit from './components/StaffEdit';
 import { useQuery } from 'react-query';
 import { getEmployee } from '../../api/EmployeeAPI';
