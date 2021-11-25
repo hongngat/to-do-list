@@ -5,19 +5,19 @@ import { Container } from '@mui/material';
 import Box from '@mui/material/Box';
 import AddIcon from '@mui/icons-material/Add';
 import Modal from '@mui/material/Modal';
-import { TableBox, style,BoxStyle } from './styled';
+import { TableBox, style, BoxStyle } from './styled';
 import StaffEdit from './containers/StaffEdit';
-import { useQuery} from 'react-query';
+import { useQuery } from 'react-query';
 import { getEmployee } from '../../api/EmployeeAPI';
 import Loader from 'react-loader-spinner';
-import Search from './containers/Search'
+import Search from './containers/Search';
 const Home = () => {
   const { data, isLoading } = useQuery('employeeLists', getEmployee);
   const [openAdd, setOpenAdd] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openError, setOpenError] = useState(false);
   const [dataEditing, setDataEditing] = useState();
-  const [searchForm, setSearchForm] = useState("");
+  const [searchForm, setSearchForm] = useState('');
 
   const handleOpenAdd = () => setOpenAdd(true);
   const handleCloseAdd = () => setOpenAdd(false);
@@ -26,27 +26,30 @@ const Home = () => {
     setOpenError(false);
     setOpenAdd(true);
   };
-  
 
   const handleEdit = (i: any, x: any) => {
     setDataEditing(x);
     setOpenEdit(true);
   };
 
-    const handleSearch =(searchForm:any)=>{
-      setSearchForm(searchForm)
-    }
+  const handleSearch = (searchForm: any) => {
+    setSearchForm(searchForm);
+  };
   if (isLoading) {
-    return <div style={{position: "fixed", top: "50%", left: "55%", transform: "translate(-50%, -50%)"}}>
-      <Loader type="ThreeDots" color="#CCC" height={30} />
-      </div>;
+    return (
+      <div
+        style={{ position: 'fixed', top: '50%', left: '55%', transform: 'translate(-50%, -50%)' }}
+      >
+        <Loader type="ThreeDots" color="#CCC" height={30} />
+      </div>
+    );
   }
- 
+
   return (
     <div className="pageContent home">
       <Container maxWidth="xl">
         <BoxStyle>
-          <Search callbackSearchData={handleSearch}/>
+          <Search callbackSearchData={handleSearch} />
         </BoxStyle>
         <TableBox.Box>
           <TableBox.TableIcon>
@@ -54,22 +57,16 @@ const Home = () => {
               <AddIcon />
             </TableBox.ButtonIcon>
           </TableBox.TableIcon>
-          <Modal
-            open={openAdd}
-            onClose={handleCloseAdd}
-          >
-            <Box sx={style}>
-              <StaffAdd setOpenError={setOpenError} setOpenAdd={setOpenAdd} data={data} />
-            </Box>
-          </Modal>
-          <Modal
-            open={openEdit}
-            onClose={handleCloseEdit}
-          >
-            <Box sx={style}>
-              <StaffEdit setOpenEdit={setOpenEdit} dataEditing={dataEditing}  />
-            </Box>
-          </Modal>
+
+          <StaffAdd
+            setOpenError={setOpenError}
+            openAdd={openAdd}
+            setOpenAdd={setOpenAdd}
+            data={data}
+          />
+
+          {dataEditing ? <StaffEdit setOpenEdit={setOpenEdit} openEdit={openEdit} dataEditing={dataEditing} /> : null}
+
           <Modal open={openError} onClose={handleCloseError}>
             <Box sx={style}>
               Tài khoản đã tồn tại
@@ -80,6 +77,7 @@ const Home = () => {
               </div>
             </Box>
           </Modal>
+
           <EmployeeList
             data={data}
             handleEdit={handleEdit}
