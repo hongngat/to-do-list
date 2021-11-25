@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { FormGroup, Label } from '../styled';
@@ -14,7 +14,7 @@ function StaffAdd(props: any) {
   const phonenumberRex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
 
   const queryClient = useQueryClient();
-  const { mutate, isLoading } = useMutation(postEmployee, {
+  const { mutate, isLoading} = useMutation(postEmployee, {
     onSuccess: () => {
       queryClient.invalidateQueries('employeeLists');
     },
@@ -22,7 +22,7 @@ function StaffAdd(props: any) {
   
   const onSubmit = async (fields: any) => {
     const dataVali = props.data.filter(
-      (d: any) => d.email === fields.email || d.staffcode === fields.staffcode
+      (d: any) => d.email === fields.email 
     );
     if (dataVali.length > 0) {
       props.setOpenError(true);
@@ -53,7 +53,6 @@ function StaffAdd(props: any) {
           <h2 style={{ textAlign: 'left' }}>Add</h2>
           <Formik
             initialValues={{
-              staffcode: '',
               fullname: '',
               phonenumber: '',
               email: '',
@@ -70,19 +69,8 @@ function StaffAdd(props: any) {
                 .matches(emailRex, 'Email Sai định dạng'),
             })}
             onSubmit={onSubmit}
-            render={({ errors, status, touched }) => (
+            render={({ errors, touched }) => (
               <Form>
-                <FormGroup>
-                  <Label htmlFor="staffcode">Mã nhân viên</Label>
-                  <Field
-                    name="staffcode"
-                    type="text"
-                    className={
-                      'form-control' + (errors.staffcode && touched.staffcode ? ' is-invalid' : '')
-                    }
-                  />
-                  <ErrorMessage name="fullname" component="div" className="invalid-feedback" />
-                </FormGroup>
                 <FormGroup>
                   <Label htmlFor="fullname">Họ và tên</Label>
                   <Field

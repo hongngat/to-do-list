@@ -49,14 +49,15 @@ function EmployeeList({ data, header, handleEdit, searchForm }: ValueData) {
   const dataRow = data.filter((item: any) => {
     if (searchForm.staffcode === '' && searchForm.fullname === '' && searchForm.email === '') {
       return item;
-    } 
-    else if (
-       (item.staffcode.toLowerCase().includes(searchForm.staffcode.toLowerCase()) || searchForm.staffcode==='') &&
-       (item.fullname.toLowerCase().includes(searchForm.fullname.toLowerCase()) || searchForm.fullname==='') &&
-       (item.email.toLowerCase().includes(searchForm.email.toLowerCase()) || searchForm.email==='')
+    } else if (
+      (item.staffcode.toLowerCase().includes(searchForm.staffcode.toLowerCase()) ||
+        searchForm.staffcode === '') &&
+      (item.fullname.toLowerCase().includes(searchForm.fullname.toLowerCase()) ||
+        searchForm.fullname === '') &&
+      (item.email.toLowerCase().includes(searchForm.email.toLowerCase()) || searchForm.email === '')
     ) {
       return item;
-    } 
+    }
   });
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - dataRow.length) : 0;
@@ -75,59 +76,59 @@ function EmployeeList({ data, header, handleEdit, searchForm }: ValueData) {
     const dataRemove: any = data.filter((row: any, j: any) => j === i);
     await mutateAsync(dataRemove[0].id);
   };
-  if (isLoading) {
-    return (
-      <div
-        style={{ position: 'fixed', top: '50%', left: '55%', transform: 'translate(-50%, -50%)' }}
-      >
-        <Loader type="ThreeDots" color="#CCC" height={30} />
-      </div>
-    );
-  }
   return (
-    <Table className="tableStyle">
-      <TableHead>
-        <TableRow>
-          {header.map((x: any, i: any) => (
-            <TableCell key={`thc-${i}`}>{x.name}</TableCell>
-          ))}
-          <TableCell />
-          <TableCell />
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {(rowsPerPage > 0
-          ? dataRow.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-          : dataRow
-        ).map((x: any, i: any) => row(x, i, header, handleRemove, handleEdit))}
-        {dataEmpty === 0 && (
-          <TableRow style={{ height: 300 * emptyRows }}>
-            <TableCell colSpan={12} className="emptyCell">
-              Data Empty
-            </TableCell>
+    <>
+      {isLoading ? (
+        <div
+          style={{ position: 'fixed', top: '50%', left: '55%', transform: 'translate(-50%, -50%)' }}
+        >
+          <Loader type="ThreeDots" color="#CCC" height={30} />
+        </div>
+      ) : null}
+      <Table className="tableStyle">
+        <TableHead>
+          <TableRow>
+            {header.map((x: any, i: any) => (
+              <TableCell key={`thc-${i}`}>{x.name}</TableCell>
+            ))}
+            <TableCell />
+            <TableCell />
           </TableRow>
-        )}
-      </TableBody>
-      <TableFooter>
-        <TablePagination
-          style={{ textAlign: 'right', width: '100%', borderBottom: 'none' }}
-          rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-          colSpan={12}
-          count={dataRow.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          SelectProps={{
-            inputProps: {
-              'aria-label': 'rows per page',
-            },
-            native: true,
-          }}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          ActionsComponent={TablePaginationActions}
-        />
-      </TableFooter>
-    </Table>
+        </TableHead>
+        <TableBody>
+          {(rowsPerPage > 0
+            ? dataRow.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : dataRow
+          ).map((x: any, i: any) => row(x, i, header, handleRemove, handleEdit))}
+          {dataEmpty === 0 && (
+            <TableRow style={{ height: 300 * emptyRows }}>
+              <TableCell colSpan={12} className="emptyCell">
+                Data Empty
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+        <TableFooter>
+          <TablePagination
+            style={{ textAlign: 'right', width: '100%', borderBottom: 'none' }}
+            rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+            colSpan={12}
+            count={dataRow.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            SelectProps={{
+              inputProps: {
+                'aria-label': 'rows per page',
+              },
+              native: true,
+            }}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            ActionsComponent={TablePaginationActions}
+          />
+        </TableFooter>
+      </Table>
+    </>
   );
 }
 export default EmployeeList;
