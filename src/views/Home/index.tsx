@@ -16,7 +16,11 @@ const Home = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openError, setOpenError] = useState(false);
   const [dataEditing, setDataEditing] = useState();
-  const [searchForm, setSearchForm] = useState('');
+  const [searchForm, setSearchForm] = useState({
+    staffcode:'',
+    fullname:'',
+    email:''
+  });
 
   const handleOpenAdd = () => setOpenAdd(true);
 
@@ -27,6 +31,7 @@ const Home = () => {
 
   const handleSearch = (searchForm: any) => {
     setSearchForm(searchForm);
+    
   };
   if (isLoading) {
     return (

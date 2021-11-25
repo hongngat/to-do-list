@@ -1,31 +1,58 @@
-import React, {  useState } from 'react';
-import { FormGroup,Label } from '../styled';
-function Search(props:any) {
+import React, { useState } from 'react';
+import { FormGroup, Label } from '../styled';
+import Grid from '@mui/material/Grid';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
 
-  const [searchForm,setSearchForm]=useState('')
-  const handleChange=(e:any)=>{
-    setSearchForm(e.target.value)
-  }
-  const handleSubmit = async (fields:any) => {
-    setSearchForm(fields.target.value)
+
+function Search(props: any) {
+  const [searchForm, setSearchForm] = useState({
+    staffcode:'',
+    fullname:'',
+    email:''
+  });
+  const handleChange = (e: any) => {
+    const value = e.target.value
+    setSearchForm({
+      ...searchForm,
+      [e.target.name]: value,
+    });
   };
-  props.callbackSearchData(searchForm)
+  const handleSubmit = (e: any) => {
+    const value = e.target.value
+    setSearchForm({
+      ...searchForm,
+      [e.target.name]: value,
+    });
+  };
+  props.callbackSearchData(searchForm);
   return (
     <form onSubmit={handleSubmit}>
-            <FormGroup>
-              <Label htmlFor="searchdata">Tìm kiếm</Label>
-              <input
-                name="searchdata"
-                type="text"
-                onChange={handleChange}
-              />
-              </FormGroup>
-            <div className="btnSubmit">
-              <button type="button" >
-                Search
-              </button>
-            </div>
-      </form>
+      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Grid item xs={4}>
+        <FormGroup>
+              <Label htmlFor="staffcode">Mã nhân viên</Label>
+              <input name="staffcode" type="text" onChange={handleChange} />
+            </FormGroup>
+        </Grid>
+        <Grid item xs={4}>
+        <FormGroup>
+              <Label htmlFor="fullname">Tên nhân viên</Label>
+              <input name="fullname" type="text" onChange={handleChange} />
+            </FormGroup>
+        </Grid>
+        <Grid item xs={4}>
+        <FormGroup>
+              <Label htmlFor="email">Email</Label>
+              <input name="email" type="text" onChange={handleChange} />
+            </FormGroup>
+        </Grid>
+      </Grid>
+
+      <div className="btnSubmit">
+        <button type="button">Search</button>
+      </div>
+    </form>
   );
 }
 
