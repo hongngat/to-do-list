@@ -5,7 +5,13 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient(
+  {defaultOptions: {
+    queries: {
+      staleTime: 1000 * 20,
+    },
+  },}
+);
 
 ReactDOM.render(
   <React.StrictMode>

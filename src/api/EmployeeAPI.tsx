@@ -11,7 +11,7 @@ export const postEmployee = async (body:any)=>{
     return res;
 }
 
-export const putEmployee = async ({id,... body}:any)=>{
+export const putEmployee = async ({id,...body}:any)=>{
     const res = await ApiService.put(`https://619c48d468ebaa001753c809.mockapi.io/api/EmployeeLists/${id}`,body);
     return res;
 }
