@@ -11,6 +11,7 @@ import TablePagination from '@mui/material/TablePagination';
 import {TablePaginationActions} from '../../../components/Pagination'
 import {useMutation, useQueryClient } from 'react-query';
 import {deleteEmployee } from '../../../api/EmployeeAPI';
+import Loader from 'react-loader-spinner';
 
 interface ValueData {
   data?: any;
@@ -35,7 +36,7 @@ const row = (x: any, i: any, header: any,handleRemove:any,handleEdit:any) => (
 );
 
 function EmployeeList({ data, header,handleEdit,searchForm }: ValueData) {
-  const {mutateAsync} = useMutation(deleteEmployee,
+  const {mutateAsync,isLoading} = useMutation(deleteEmployee,
     {
       onSuccess: () => {
         queryClient.invalidateQueries('employeeLists');
@@ -69,7 +70,15 @@ function EmployeeList({ data, header,handleEdit,searchForm }: ValueData) {
     const dataRemove:any = data.filter((row: any, j: any) => j === i);
     await mutateAsync(dataRemove[0].id);
   };
-  
+  if (isLoading) {
+    return (
+      <div
+        style={{ position: 'fixed', top: '50%', left: '55%', transform: 'translate(-50%, -50%)' }}
+      >
+        <Loader type="ThreeDots" color="#CCC" height={30} />
+      </div>
+    );
+  }
   return (
     <Table sx={{ minWidth: 500 }} >
       <TableHead>
@@ -87,7 +96,7 @@ function EmployeeList({ data, header,handleEdit,searchForm }: ValueData) {
           : dataRow
         )
         .map((x: any, i: any) => row(x, i, header,handleRemove,handleEdit))}
-        {dataEmpty == 0 && (
+        {dataEmpty === 0 && (
               <TableRow style={{ height: 300 * emptyRows }}>
                 <TableCell colSpan={12} className="emptyCell">
                   Data Empty

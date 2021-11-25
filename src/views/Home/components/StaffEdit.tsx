@@ -1,36 +1,28 @@
 import React, { useState } from 'react';
-import { Formik, Field, Form, FormikProps, ErrorMessage } from 'formik';
+import { Formik, Field, Form,  ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { FormGroup, Label } from '../styled';
-import { useMutation, useQueryClient } from 'react-query';
-import { postEmployee } from '../../../api/EmployeeAPI';
+import {useMutation, useQueryClient } from 'react-query';
+import { putEmployee } from '../../../api/EmployeeAPI';
 import Modal from '@mui/material/Modal';
 import { style } from '../styled';
 import Box from '@mui/material/Box';
 import Loader from 'react-loader-spinner';
 
-function StaffAdd(props: any) {
+function StaffEdit(props:any) {
   const emailRex = /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/;
   const phonenumberRex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
 
   const queryClient = useQueryClient();
-  const { mutate, isLoading } = useMutation(postEmployee, {
+  const { mutateAsync,isLoading } = useMutation(putEmployee, {
     onSuccess: () => {
       queryClient.invalidateQueries('employeeLists');
     },
   });
-
   const onSubmit = async (fields: any) => {
-    const dataVali = props.data.filter(
-      (d: any) => d.email === fields.email || d.staffcode === fields.staffcode
-    );
-    if (dataVali.length > 0) {
-      props.setOpenError(true);
-      props.setOpenAdd(false);
-    } else {
-      await mutate(fields);
-      props.setOpenAdd(false);
-    }
+    const id = props.dataEditing.id;
+    await mutateAsync({ ...fields, id });
+    props.setOpenEdit(false);
   };
   if (isLoading) {
     return (
@@ -44,20 +36,20 @@ function StaffAdd(props: any) {
   else{
     return (
       <Modal
-        open={props.openAdd}
+        open={props.openEdit}
         onClose={() => {
-          props.setOpenAdd(false);
+          props.setOpenEdit(false);
         }}
       >
         <Box sx={style}>
-          <h2 style={{ textAlign: 'left' }}>Add</h2>
+          <h2 style={{ textAlign: 'left' }}>Edit</h2>
           <Formik
             initialValues={{
-              staffcode: '',
-              fullname: '',
-              phonenumber: '',
-              email: '',
-              birthdate: '',
+              staffcode: props.dataEditing.staffcode,
+              fullname: props.dataEditing.fullname,
+              phonenumber: props.dataEditing.phonenumber,
+              email: props.dataEditing.email,
+              birthdate: props.dataEditing.birthdate,
             }}
             validationSchema={Yup.object().shape({
               fullname: Yup.string().required('First Name is required'),
@@ -80,8 +72,9 @@ function StaffAdd(props: any) {
                     className={
                       'form-control' + (errors.staffcode && touched.staffcode ? ' is-invalid' : '')
                     }
+                    disabled
                   />
-                  <ErrorMessage name="fullname" component="div" className="invalid-feedback" />
+                  <ErrorMessage name="staffcode" component="div" className="invalid-feedback" />
                 </FormGroup>
                 <FormGroup>
                   <Label htmlFor="fullname">Họ và tên</Label>
@@ -127,7 +120,7 @@ function StaffAdd(props: any) {
                   <ErrorMessage name="birthdate" component="div" className="invalid-feedback" />
                 </FormGroup>
                 <div className="btnSubmit">
-                  <button type="submit">{isLoading ? 'loading' : 'Thêm'}</button>
+                  <button type="submit">Sửa</button>
                 </div>
               </Form>
             )}
@@ -138,4 +131,4 @@ function StaffAdd(props: any) {
   }
 }
 
-export default StaffAdd;
+export default StaffEdit;

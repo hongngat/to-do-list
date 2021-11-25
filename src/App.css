@@ -48,7 +48,7 @@
 
 .default-layout {
     background: #EEEEEE;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .css-1wnsr1i {
