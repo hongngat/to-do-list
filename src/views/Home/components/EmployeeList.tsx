@@ -81,7 +81,7 @@ function EmployeeList({ data, header,handleEdit,searchForm }: ValueData) {
     );
   }
   return (
-    <Table sx={{ minWidth: 500 }} >
+    <Table className="tableStyle">
       <TableHead>
         <TableRow>
           {header.map((x: any, i: any) => (
