@@ -38,7 +38,7 @@ function TheLayout(): JSX.Element {
       <Wrapper>
         <TheHeader open={open} setOpen={setOpen} theme={theme} drawerWidth={drawerWidth}/>
         <Body>
-          <Main open={open} style={{padding:"64px 0px 0px",width:"100%"}}>
+          <Main open={open} style={{padding:"64px 0px 0px"}}>
             <TheContent />
           </Main>
         </Body>
