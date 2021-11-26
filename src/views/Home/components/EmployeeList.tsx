@@ -20,29 +20,30 @@ function EmployeeList({ data, header, handleEdit, searchForm }: ValueData) {
     },
   });
 
-  const dataSearch = data.filter((item: any) => {
-    if (
-      searchForm.staffcode === '' &&
-      searchForm.fullname === '' &&
-      searchForm.email === ''
-    ) {
-      return item;
-    } else if (
-      (item.staffcode
-        .toLowerCase()
-        .includes(searchForm.staffcode.toLowerCase()) ||
-        searchForm.staffcode === '') &&
-      (item.fullname
-        .toLowerCase()
-        .includes(searchForm.fullname.toLowerCase()) ||
-        searchForm.fullname === '') &&
-      (item.email.toLowerCase().includes(searchForm.email.toLowerCase()) ||
-        searchForm.email === '')
-    ) {
-      return item;
-    }
-  });
-
+  const dataSearch = data
+    ? data.filter((item: any) => {
+        if (
+          searchForm.staffcode === '' &&
+          searchForm.fullname === '' &&
+          searchForm.email === ''
+        ) {
+          return item;
+        } else if (
+          (item.staffcode
+            .toLowerCase()
+            .includes(searchForm.staffcode.toLowerCase()) ||
+            searchForm.staffcode === '') &&
+          (item.fullname
+            .toLowerCase()
+            .includes(searchForm.fullname.toLowerCase()) ||
+            searchForm.fullname === '') &&
+          (item.email.toLowerCase().includes(searchForm.email.toLowerCase()) ||
+            searchForm.email === '')
+        ) {
+          return item;
+        }
+      })
+    : [];
   const handleRemove = async (i: any) => {
     const dataRemove: any = data.filter((row: any, j: any) => j === i);
     await mutateAsync(dataRemove[0].id);
