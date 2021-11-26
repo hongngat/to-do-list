@@ -2,23 +2,38 @@ import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { FormGroup, Label } from '../styled';
-import { useMutation, useQueryClient } from 'react-query';
 import { postEmployee } from '../../../api/EmployeeAPI';
 import Modal from '@mui/material/Modal';
 import { style } from '../styled';
 import Box from '@mui/material/Box';
 import LoadingComponent from '../../../components/Loading';
+import { useMutationAPI } from '../../../hook/QueryAPI';
+
 function StaffAdd(props: any) {
   const emailRex = /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/;
   const phonenumberRex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
 
-  const queryClient = useQueryClient();
-  const { mutate, isLoading } = useMutation(postEmployee, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('employeeLists');
-    },
-  });
+  const { mutate, isLoading } = useMutationAPI(postEmployee, 'employeeLists');
 
+  const validate = Yup.object().shape({
+    fullname: Yup.string().required('Full Name is required'),
+    phonenumber: Yup.string()
+      .required('Phone Number is required')
+      .matches(phonenumberRex, 'Phone number isvalid'),
+    email: Yup.string()
+      .email('Email is invalid')
+      .required('Email is required')
+      .matches(emailRex, 'Email isvalid')
+      .test({
+        message: 'Email already exists',
+        test: (value) =>
+          props.data
+            .map((i: any, k: any) => {
+              return i.email;
+            })
+            .indexOf(value) < 0,
+      }),
+  });
   const onSubmit = async (fields: any) => {
     await mutate(fields);
     props.onCloseAdd();
@@ -37,25 +52,7 @@ function StaffAdd(props: any) {
               email: '',
               birthdate: '',
             }}
-            validationSchema={Yup.object().shape({
-              fullname: Yup.string().required('First Name is required'),
-              phonenumber: Yup.string()
-                .required('Last Name is required')
-                .matches(phonenumberRex, 'Số điện thoại Sai định dạng'),
-              email: Yup.string()
-                .email('Email is invalid')
-                .required('Email is required')
-                .matches(emailRex, 'Email Sai định dạng')
-                .test({
-                  message: 'Email đã tồn tại',
-                  test: (value) =>
-                    props.data
-                      .map((i: any, k: any) => {
-                        return i.email;
-                      })
-                      .indexOf(value) < 0,
-                }),
-            })}
+            validationSchema={validate}
             onSubmit={onSubmit}
             render={({ errors, touched }) => (
               <Form>
@@ -128,9 +125,7 @@ function StaffAdd(props: any) {
                   />
                 </FormGroup>
                 <div className="btnSubmit">
-                  <button type="submit">
-                    {isLoading ? 'loading' : 'Thêm'}
-                  </button>
+                  <button type="submit">Thêm</button>
                 </div>
               </Form>
             )}

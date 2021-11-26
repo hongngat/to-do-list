@@ -1,8 +1,6 @@
-/* eslint-disable array-callback-return */
-import { useMutation, useQueryClient } from 'react-query';
 import { deleteEmployee } from '../../../api/EmployeeAPI';
 import LoadingComponent from 'components/Loading';
-
+import { useMutationAPI } from '../../../hook/QueryAPI';
 import TableComponent from '../../../components/Table';
 interface ValueData {
   data?: any;
@@ -13,13 +11,10 @@ interface ValueData {
 }
 
 function EmployeeList({ data, header, handleEdit, searchForm }: ValueData) {
-  const queryClient = useQueryClient();
-  const { mutateAsync, isLoading } = useMutation(deleteEmployee, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('employeeLists');
-    },
-  });
-
+  const { mutateAsync, isLoading } = useMutationAPI(
+    deleteEmployee,
+    'employeeLists'
+  );
   const dataSearch = data
     ? data.filter((item: any) => {
         if (

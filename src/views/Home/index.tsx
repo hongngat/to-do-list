@@ -8,7 +8,7 @@ import StaffEdit from './components/StaffEdit';
 import { useQuery } from 'react-query';
 import { getEmployee } from '../../api/EmployeeAPI';
 import Search from './components/Search';
-import useModal from '../../hook/useModal';
+import useModal from '../../hook/Modal/useModal';
 import LoadingComponent from 'components/Loading';
 const Home = () => {
   const { data, isLoading } = useQuery('employeeLists', getEmployee);

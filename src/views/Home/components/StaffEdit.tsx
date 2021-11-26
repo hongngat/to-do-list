@@ -2,23 +2,22 @@ import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { FormGroup, Label } from '../styled';
-import { useMutation, useQueryClient } from 'react-query';
 import { putEmployee } from '../../../api/EmployeeAPI';
 import Modal from '@mui/material/Modal';
 import { style } from '../styled';
 import Box from '@mui/material/Box';
 import LoadingComponent from '../../../components/Loading';
+import { useMutationAPI } from '../../../hook/QueryAPI';
 
 function StaffEdit(props: any) {
   const emailRex = /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/;
   const phonenumberRex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
 
-  const queryClient = useQueryClient();
-  const { mutateAsync, isLoading } = useMutation(putEmployee, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('employeeLists');
-    },
-  });
+  const { isLoading, mutateAsync } = useMutationAPI(
+    putEmployee,
+    'employeeLists'
+  );
+
   const onSubmit = async (fields: any) => {
     const id = props.dataEditing.id;
     await mutateAsync({ ...fields, id });
