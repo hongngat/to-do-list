@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import { Formik, Field, Form,  ErrorMessage } from 'formik';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { FormGroup, Label } from '../styled';
-import {useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { putEmployee } from '../../../api/EmployeeAPI';
 import Modal from '@mui/material/Modal';
 import { style } from '../styled';
 import Box from '@mui/material/Box';
-import Loader from 'react-loader-spinner';
+import LoadingComponent from '../../../components/Loading';
 
-function StaffEdit(props:any) {
+function StaffEdit(props: any) {
   const emailRex = /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/;
   const phonenumberRex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
 
   const queryClient = useQueryClient();
-  const { mutateAsync,isLoading } = useMutation(putEmployee, {
+  const { mutateAsync, isLoading } = useMutation(putEmployee, {
     onSuccess: () => {
       queryClient.invalidateQueries('employeeLists');
     },
@@ -22,25 +22,13 @@ function StaffEdit(props:any) {
   const onSubmit = async (fields: any) => {
     const id = props.dataEditing.id;
     await mutateAsync({ ...fields, id });
-    props.setOpenEdit(false);
+    props.onCloseEdit();
   };
   if (isLoading) {
+    return <LoadingComponent />;
+  } else {
     return (
-      <div
-        style={{ position: 'fixed', top: '50%', left: '55%', transform: 'translate(-50%, -50%)' }}
-      >
-        <Loader type="ThreeDots" color="#CCC" height={30} />
-      </div>
-    );
-  }
-  else{
-    return (
-      <Modal
-        open={props.openEdit}
-        onClose={() => {
-          props.setOpenEdit(false);
-        }}
-      >
+      <Modal open={props.isOpenEdit} onClose={props.onCloseEdit}>
         <Box sx={style}>
           <h2 style={{ textAlign: 'left' }}>Edit</h2>
           <Formik
@@ -70,11 +58,18 @@ function StaffEdit(props:any) {
                     name="staffcode"
                     type="text"
                     className={
-                      'form-control' + (errors.staffcode && touched.staffcode ? ' is-invalid' : '')
+                      'form-control' +
+                      (errors.staffcode && touched.staffcode
+                        ? ' is-invalid'
+                        : '')
                     }
                     disabled
                   />
-                  <ErrorMessage name="staffcode" component="div" className="invalid-feedback" />
+                  <ErrorMessage
+                    name="staffcode"
+                    component="div"
+                    className="invalid-feedback"
+                  />
                 </FormGroup>
                 <FormGroup>
                   <Label htmlFor="fullname">Họ và tên</Label>
@@ -82,10 +77,15 @@ function StaffEdit(props:any) {
                     name="fullname"
                     type="text"
                     className={
-                      'form-control' + (errors.fullname && touched.fullname ? ' is-invalid' : '')
+                      'form-control' +
+                      (errors.fullname && touched.fullname ? ' is-invalid' : '')
                     }
                   />
-                  <ErrorMessage name="fullname" component="div" className="invalid-feedback" />
+                  <ErrorMessage
+                    name="fullname"
+                    component="div"
+                    className="invalid-feedback"
+                  />
                 </FormGroup>
                 <FormGroup>
                   <Label htmlFor="phonenumber">Số điện thoại</Label>
@@ -94,19 +94,32 @@ function StaffEdit(props:any) {
                     type="text"
                     className={
                       'form-control' +
-                      (errors.phonenumber && touched.phonenumber ? ' is-invalid' : '')
+                      (errors.phonenumber && touched.phonenumber
+                        ? ' is-invalid'
+                        : '')
                     }
                   />
-                  <ErrorMessage name="phonenumber" component="div" className="invalid-feedback" />
+                  <ErrorMessage
+                    name="phonenumber"
+                    component="div"
+                    className="invalid-feedback"
+                  />
                 </FormGroup>
                 <FormGroup>
                   <Label htmlFor="email">Email</Label>
                   <Field
                     name="email"
                     type="text"
-                    className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')}
+                    className={
+                      'form-control' +
+                      (errors.email && touched.email ? ' is-invalid' : '')
+                    }
                   />
-                  <ErrorMessage name="email" component="div" className="invalid-feedback" />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className="invalid-feedback"
+                  />
                 </FormGroup>
                 <FormGroup>
                   <Label htmlFor="birthdate">Ngày sinh</Label>
@@ -114,10 +127,17 @@ function StaffEdit(props:any) {
                     name="birthdate"
                     type="date"
                     className={
-                      'form-control' + (errors.birthdate && touched.birthdate ? ' is-invalid' : '')
+                      'form-control' +
+                      (errors.birthdate && touched.birthdate
+                        ? ' is-invalid'
+                        : '')
                     }
                   />
-                  <ErrorMessage name="birthdate" component="div" className="invalid-feedback" />
+                  <ErrorMessage
+                    name="birthdate"
+                    component="div"
+                    className="invalid-feedback"
+                  />
                 </FormGroup>
                 <div className="btnSubmit">
                   <button type="submit">Sửa</button>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { FormGroup, Label } from '../styled';
@@ -7,48 +7,27 @@ import { postEmployee } from '../../../api/EmployeeAPI';
 import Modal from '@mui/material/Modal';
 import { style } from '../styled';
 import Box from '@mui/material/Box';
-import Loader from 'react-loader-spinner';
-
+import LoadingComponent from '../../../components/Loading';
 function StaffAdd(props: any) {
   const emailRex = /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/;
   const phonenumberRex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
 
   const queryClient = useQueryClient();
-  const { mutate, isLoading} = useMutation(postEmployee, {
+  const { mutate, isLoading } = useMutation(postEmployee, {
     onSuccess: () => {
       queryClient.invalidateQueries('employeeLists');
     },
   });
-  
+
   const onSubmit = async (fields: any) => {
-    const dataVali = props.data.filter(
-      (d: any) => d.email === fields.email 
-    );
-    if (dataVali.length > 0) {
-      props.setOpenError(true);
-      props.setOpenAdd(false);
-    } else {
-      await mutate(fields);
-      props.setOpenAdd(false);
-    }
+    await mutate(fields);
+    props.onCloseAdd();
   };
   if (isLoading) {
+    return <LoadingComponent />;
+  } else {
     return (
-      <div
-        style={{ position: 'fixed', top: '50%', left: '55%', transform: 'translate(-50%, -50%)' }}
-      >
-        <Loader type="ThreeDots" color="#CCC" height={30} />
-      </div>
-    );
-  }
-  else{
-    return (
-      <Modal
-        open={props.openAdd}
-        onClose={() => {
-          props.setOpenAdd(false);
-        }}
-      >
+      <Modal open={props.isOpenAdd} onClose={props.onCloseAdd}>
         <Box sx={style}>
           <h2 style={{ textAlign: 'left' }}>Add</h2>
           <Formik
@@ -66,7 +45,16 @@ function StaffAdd(props: any) {
               email: Yup.string()
                 .email('Email is invalid')
                 .required('Email is required')
-                .matches(emailRex, 'Email Sai định dạng'),
+                .matches(emailRex, 'Email Sai định dạng')
+                .test({
+                  message: 'Email đã tồn tại',
+                  test: (value) =>
+                    props.data
+                      .map((i: any, k: any) => {
+                        return i.email;
+                      })
+                      .indexOf(value) > 0,
+                }),
             })}
             onSubmit={onSubmit}
             render={({ errors, touched }) => (
@@ -77,10 +65,15 @@ function StaffAdd(props: any) {
                     name="fullname"
                     type="text"
                     className={
-                      'form-control' + (errors.fullname && touched.fullname ? ' is-invalid' : '')
+                      'form-control' +
+                      (errors.fullname && touched.fullname ? ' is-invalid' : '')
                     }
                   />
-                  <ErrorMessage name="fullname" component="div" className="invalid-feedback" />
+                  <ErrorMessage
+                    name="fullname"
+                    component="div"
+                    className="invalid-feedback"
+                  />
                 </FormGroup>
                 <FormGroup>
                   <Label htmlFor="phonenumber">Số điện thoại</Label>
@@ -89,19 +82,32 @@ function StaffAdd(props: any) {
                     type="text"
                     className={
                       'form-control' +
-                      (errors.phonenumber && touched.phonenumber ? ' is-invalid' : '')
+                      (errors.phonenumber && touched.phonenumber
+                        ? ' is-invalid'
+                        : '')
                     }
                   />
-                  <ErrorMessage name="phonenumber" component="div" className="invalid-feedback" />
+                  <ErrorMessage
+                    name="phonenumber"
+                    component="div"
+                    className="invalid-feedback"
+                  />
                 </FormGroup>
                 <FormGroup>
                   <Label htmlFor="email">Email</Label>
                   <Field
                     name="email"
                     type="text"
-                    className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')}
+                    className={
+                      'form-control' +
+                      (errors.email && touched.email ? ' is-invalid' : '')
+                    }
                   />
-                  <ErrorMessage name="email" component="div" className="invalid-feedback" />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className="invalid-feedback"
+                  />
                 </FormGroup>
                 <FormGroup>
                   <Label htmlFor="birthdate">Ngày sinh</Label>
@@ -109,13 +115,22 @@ function StaffAdd(props: any) {
                     name="birthdate"
                     type="date"
                     className={
-                      'form-control' + (errors.birthdate && touched.birthdate ? ' is-invalid' : '')
+                      'form-control' +
+                      (errors.birthdate && touched.birthdate
+                        ? ' is-invalid'
+                        : '')
                     }
                   />
-                  <ErrorMessage name="birthdate" component="div" className="invalid-feedback" />
+                  <ErrorMessage
+                    name="birthdate"
+                    component="div"
+                    className="invalid-feedback"
+                  />
                 </FormGroup>
                 <div className="btnSubmit">
-                  <button type="submit">{isLoading ? 'loading' : 'Thêm'}</button>
+                  <button type="submit">
+                    {isLoading ? 'loading' : 'Thêm'}
+                  </button>
                 </div>
               </Form>
             )}

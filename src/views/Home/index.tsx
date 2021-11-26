@@ -7,65 +7,57 @@ import { TableBox, BoxStyle } from './styled';
 import StaffEdit from './components/StaffEdit';
 import { useQuery } from 'react-query';
 import { getEmployee } from '../../api/EmployeeAPI';
-import Loader from 'react-loader-spinner';
 import Search from './components/Search';
-import WarningModal from './components/WarningModal';
+import useModal from '../../hook/useModal';
+import LoadingComponent from 'components/Loading';
 const Home = () => {
   const { data, isLoading } = useQuery('employeeLists', getEmployee);
-  const [openAdd, setOpenAdd] = useState(false);
-  const [openEdit, setOpenEdit] = useState(false);
-  const [openError, setOpenError] = useState(false);
   const [dataEditing, setDataEditing] = useState();
+  const {
+    isOpenAdd,
+    onOpenAdd,
+    onCloseAdd,
+    isOpenEdit,
+    onOpenEdit,
+    onCloseEdit,
+  } = useModal();
   const [searchForm, setSearchForm] = useState({
-    staffcode:'',
-    fullname:'',
-    email:''
+    staffcode: '',
+    fullname: '',
+    email: '',
   });
-
-  const handleOpenAdd = () => setOpenAdd(true);
 
   const handleEdit = (i: any, x: any) => {
     setDataEditing(x);
-    setOpenEdit(true);
+    onOpenEdit();
   };
 
-  const handleSearch = (searchForm: any) => {
-    setSearchForm(searchForm);
-    
-  };
   if (isLoading) {
-    return (
-      <div
-        style={{ position: 'fixed', top: '50%', left: '55%', transform: 'translate(-50%, -50%)' }}
-      >
-        <Loader type="ThreeDots" color="#CCC" height={30} />
-      </div>
-    );
+    <LoadingComponent />;
   }
 
   return (
     <div className="pageContent home">
       <Container maxWidth="xl">
         <BoxStyle>
-          <Search callbackSearchData={handleSearch} />
+          <Search setSearchForm={setSearchForm} searchForm={searchForm} />
         </BoxStyle>
         <TableBox.Box>
           <TableBox.TableIcon>
-            <TableBox.ButtonIcon onClick={handleOpenAdd}>
+            <TableBox.ButtonIcon onClick={onOpenAdd}>
               <AddIcon />
             </TableBox.ButtonIcon>
           </TableBox.TableIcon>
 
-          <StaffAdd
-            setOpenError={setOpenError}
-            openAdd={openAdd}
-            setOpenAdd={setOpenAdd}
-            data={data}
-          />
+          <StaffAdd isOpenAdd={isOpenAdd} onCloseAdd={onCloseAdd} data={data} />
 
-          {dataEditing ? <StaffEdit setOpenEdit={setOpenEdit} openEdit={openEdit} dataEditing={dataEditing} /> : null}
-
-          <WarningModal openError={openError} setOpenAdd={setOpenAdd} setOpenError={setOpenError}/>
+          {dataEditing ? (
+            <StaffEdit
+              onCloseEdit={onCloseEdit}
+              isOpenEdit={isOpenEdit}
+              dataEditing={dataEditing}
+            />
+          ) : null}
 
           <EmployeeList
             data={data}
