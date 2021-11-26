@@ -1,0 +1,88 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\HongNgat\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js
+
+PATH: 
+  C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;F:\app\HongNgat\product\11.2.0\client_2;F:\app\HongNgat\product\11.2.0\client_2\bin;F:\app\HongNgat\product\11.2.0\client_1;F:\app\HongNgat\product\11.2.0\client_1\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\dotnet\;C:\Program Files\Azure Data Studio\bin;C:\Program Files\Git\cmd;C:\Program Files (x86)\dotnet\;C:\Users\HongNgat\AppData\Local\Microsoft\WindowsApps;C:\Users\HongNgat\AppData\Local\GitHubDesktop\bin;C:\Users\HongNgat\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\HongNgat\AppData\Roaming\npm;C:\Users\HongNgat\.dotnet\tools;C:\Program Files\Azure Data Studio\bin;C:\Users\HongNgat\AppData\Local\Microsoft\WindowsApps;
+
+Yarn version: 
+  1.22.5
+
+Node version: 
+  12.18.3
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/typescript/-/typescript-4.1.6.tgz: unexpected end of file
+      at Zlib.zlibOnError [as onerror] (zlib.js:180:17)
+
+npm manifest: 
+  {
+      "name": "to-do-list",
+      "version": "0.1.0",
+      "private": true,
+      "dependencies": {
+          "@emotion/react": "^11.6.0",
+          "@emotion/styled": "^11.6.0",
+          "@mui/icons-material": "^5.1.1",
+          "@mui/material": "^5.1.1",
+          "@mui/x-data-grid": "^5.0.1",
+          "@reduxjs/toolkit": "^1.6.2",
+          "@testing-library/jest-dom": "^4.2.4",
+          "@testing-library/react": "^9.5.0",
+          "@testing-library/user-event": "^7.2.1",
+          "@types/jest": "^24.9.1",
+          "@types/node": "^12.20.37",
+          "@types/react": "^16.14.21",
+          "@types/react-dom": "^16.9.14",
+          "@types/react-redux": "^7.1.20",
+          "axios": "^0.24.0",
+          "formik": "^2.2.9",
+          "react": "^17.0.2",
+          "react-dom": "^17.0.2",
+          "react-loader-spinner": "^4.0.0",
+          "react-query": "^3.33.4",
+          "react-router": "^6.0.2",
+          "react-router-dom": "^6.0.2",
+          "react-scripts": "4.0.3",
+          "typescript": "~4.1.5",
+          "yup": "^0.32.11"
+      },
+      "scripts": {
+          "start": "react-scripts start",
+          "build": "react-scripts build",
+          "test": "react-scripts test",
+          "eject": "react-scripts eject",
+          "lint": "eslint --ext js,jsx src",
+          "lint:fix": "eslint --fix --ext js,jsx src",
+          "prettier": "prettier --check \"src/**/(**.jsx|*.js|*.scss|*.css)\"",
+          "prettier:fix": "prettier --write \"src/**/(**.jsx|*.js|*.scss|*.css)\""
+      },
+      "eslintConfig": {
+          "extends": "react-app"
+      },
+      "browserslist": {
+          "production": [
+              ">0.2%",
+              "not dead",
+              "not op_mini all"
+          ],
+          "development": [
+              "last 1 chrome version",
+              "last 1 firefox version",
+              "last 1 safari version"
+          ]
+      },
+      "devDependencies": {
+          "eslint-config-prettier": "^8.3.0",
+          "eslint-plugin-prettier": "^4.0.0",
+          "prettier": "^2.4.1"
+      }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

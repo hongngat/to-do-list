@@ -53,7 +53,7 @@ function StaffAdd(props: any) {
                       .map((i: any, k: any) => {
                         return i.email;
                       })
-                      .indexOf(value) > 0,
+                      .indexOf(value) < 0,
                 }),
             })}
             onSubmit={onSubmit}
