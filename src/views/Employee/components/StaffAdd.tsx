@@ -1,75 +1,60 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { FormGroup, Label } from '../styled';
-import { putEmployee } from '../../../api/EmployeeAPI';
+import { FormGroup, Label, style } from '../../Employee/styled';
+import { postEmployee } from '../../../api/EmployeeAPI';
 import Modal from '@mui/material/Modal';
-import { style } from '../styled';
 import Box from '@mui/material/Box';
 import LoadingComponent from '../../../components/Loading';
 import { useMutationAPI } from '../../../hook/QueryAPI';
 
-function StaffEdit(props: any) {
+function StaffAdd(props: any) {
   const emailRex = /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/;
   const phonenumberRex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
 
-  const { isLoading, mutateAsync } = useMutationAPI(
-    putEmployee,
-    'employeeLists'
-  );
+  const { mutate, isLoading } = useMutationAPI(postEmployee, 'employeeLists');
 
+  const validate = Yup.object().shape({
+    fullname: Yup.string().required('Full Name is required'),
+    phonenumber: Yup.string()
+      .required('Phone Number is required')
+      .matches(phonenumberRex, 'Phone number isvalid'),
+    email: Yup.string()
+      .email('Email is invalid')
+      .required('Email is required')
+      .matches(emailRex, 'Email isvalid')
+      .test({
+        message: 'Email already exists',
+        test: (value) =>
+          props.data
+            .map((i: any, k: any) => {
+              return i.email;
+            })
+            .indexOf(value) < 0,
+      }),
+  });
   const onSubmit = async (fields: any) => {
-    const id = props.dataEditing.id;
-    await mutateAsync({ ...fields, id });
-    props.onCloseEdit();
+    await mutate(fields);
+    props.onCloseAdd();
   };
   if (isLoading) {
     return <LoadingComponent />;
   } else {
     return (
-      <Modal open={props.isOpenEdit} onClose={props.onCloseEdit}>
+      <Modal open={props.isOpenAdd} onClose={props.onCloseAdd}>
         <Box sx={style}>
-          <h2 style={{ textAlign: 'left' }}>Edit</h2>
+          <h2 style={{ textAlign: 'left' }}>Add</h2>
           <Formik
             initialValues={{
-              staffcode: props.dataEditing.staffcode,
-              fullname: props.dataEditing.fullname,
-              phonenumber: props.dataEditing.phonenumber,
-              email: props.dataEditing.email,
-              birthdate: props.dataEditing.birthdate,
+              fullname: '',
+              phonenumber: '',
+              email: '',
+              birthdate: '',
             }}
-            validationSchema={Yup.object().shape({
-              fullname: Yup.string().required('First Name is required'),
-              phonenumber: Yup.string()
-                .required('Last Name is required')
-                .matches(phonenumberRex, 'Số điện thoại Sai định dạng'),
-              email: Yup.string()
-                .email('Email is invalid')
-                .required('Email is required')
-                .matches(emailRex, 'Email Sai định dạng'),
-            })}
+            validationSchema={validate}
             onSubmit={onSubmit}
-            render={({ errors, status, touched }) => (
+            render={({ errors, touched }) => (
               <Form>
-                <FormGroup>
-                  <Label htmlFor="staffcode">Mã nhân viên</Label>
-                  <Field
-                    name="staffcode"
-                    type="text"
-                    className={
-                      'form-control' +
-                      (errors.staffcode && touched.staffcode
-                        ? ' is-invalid'
-                        : '')
-                    }
-                    disabled
-                  />
-                  <ErrorMessage
-                    name="staffcode"
-                    component="div"
-                    className="invalid-feedback"
-                  />
-                </FormGroup>
                 <FormGroup>
                   <Label htmlFor="fullname">Họ và tên</Label>
                   <Field
@@ -139,7 +124,7 @@ function StaffEdit(props: any) {
                   />
                 </FormGroup>
                 <div className="btnSubmit">
-                  <button type="submit">Sửa</button>
+                  <button type="submit">Thêm</button>
                 </div>
               </Form>
             )}
@@ -150,4 +135,4 @@ function StaffEdit(props: any) {
   }
 }
 
-export default StaffEdit;
+export default StaffAdd;

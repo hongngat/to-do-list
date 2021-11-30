@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormGroup, Label } from '../styled';
+import { FormGroup, Label } from '../../Employee/styled';
 import Grid from '@mui/material/Grid';
 
 function Search(props: any) {
@@ -7,14 +7,14 @@ function Search(props: any) {
     const value = e.target.value;
     props.setSearchForm({
       ...props.searchForm,
-      [e.target.name]: value
+      [e.target.name]: value,
     });
   };
   const handleSubmit = (e: any) => {
     const value = e.target.value;
     props.setSearchForm({
       ...props.searchForm,
-      [e.target.name]: value
+      [e.target.name]: value,
     });
   };
   return (

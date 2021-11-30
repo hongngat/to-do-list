@@ -1,18 +1,22 @@
-import React, { Suspense } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Home from '../views/Home';
-
-const  TheContent =()=> {
+import { Route, Routes } from 'react-router-dom';
+import routes from '../router';
+const TheContent = () => {
   return (
     <main className="main-content">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-        </Routes>
-      </BrowserRouter>
+      <Routes>
+        {routes.map((route, idx) => {
+          return (
+            route.component && (
+              <Route
+                key={idx}
+                path={route.path}
+                element={<route.component />}
+              />
+            )
+          );
+        })}
+      </Routes>
     </main>
   );
-}
+};
 export default TheContent;
-
-

@@ -17,6 +17,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import { Search, SearchIconWrapper, StyledInputBase } from './styled';
+import { Link } from 'react-router-dom';
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
   setOpen?: any;
@@ -47,7 +48,8 @@ function TheHeader({ theme, open, setOpen, drawerWidth }: AppBarProps) {
   }
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
+    React.useState<null | HTMLElement>(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -116,7 +118,11 @@ function TheHeader({ theme, open, setOpen, drawerWidth }: AppBarProps) {
         <p>Messages</p>
       </MenuItem>
       <MenuItem>
-        <IconButton size="large" aria-label="show 17 new notifications" color="inherit">
+        <IconButton
+          size="large"
+          aria-label="show 17 new notifications"
+          color="inherit"
+        >
           <Badge badgeContent={17} color="error">
             <NotificationsIcon />
           </Badge>
@@ -138,7 +144,12 @@ function TheHeader({ theme, open, setOpen, drawerWidth }: AppBarProps) {
     </Menu>
   );
   return (
-    <BoxAppBar position="fixed" theme={theme} open={open} drawerWidth={drawerWidth}>
+    <BoxAppBar
+      position="fixed"
+      theme={theme}
+      open={open}
+      drawerWidth={drawerWidth}
+    >
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -151,22 +162,35 @@ function TheHeader({ theme, open, setOpen, drawerWidth }: AppBarProps) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            My App
+            <Link className="brand" to="/">
+              My App
+            </Link>
           </Typography>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
-            <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} />
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+            />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+            <IconButton
+              size="large"
+              aria-label="show 4 new mails"
+              color="inherit"
+            >
               <Badge badgeContent={4} color="error">
                 <MailIcon />
               </Badge>
             </IconButton>
-            <IconButton size="large" aria-label="show 17 new notifications" color="inherit">
+            <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />
               </Badge>

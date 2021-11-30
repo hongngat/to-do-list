@@ -1,20 +1,20 @@
-import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { FormGroup, Label } from '../styled';
-import { postEmployee } from '../../../api/EmployeeAPI';
+import { FormGroup, Label, style } from '../../Employee/styled';
+import { putEmployee } from '../../../api/EmployeeAPI';
 import Modal from '@mui/material/Modal';
-import { style } from '../styled';
 import Box from '@mui/material/Box';
 import LoadingComponent from '../../../components/Loading';
 import { useMutationAPI } from '../../../hook/QueryAPI';
 
-function StaffAdd(props: any) {
+function StaffEdit(props: any) {
   const emailRex = /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/;
   const phonenumberRex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
 
-  const { mutate, isLoading } = useMutationAPI(postEmployee, 'employeeLists');
-
+  const { isLoading, mutateAsync } = useMutationAPI(
+    putEmployee,
+    'employeeLists'
+  );
   const validate = Yup.object().shape({
     fullname: Yup.string().required('Full Name is required'),
     phonenumber: Yup.string()
@@ -34,28 +34,50 @@ function StaffAdd(props: any) {
             .indexOf(value) < 0,
       }),
   });
+
   const onSubmit = async (fields: any) => {
-    await mutate(fields);
-    props.onCloseAdd();
+    const id = props.dataEditing.id;
+    await mutateAsync({ ...fields, id });
+    props.onCloseEdit();
   };
   if (isLoading) {
     return <LoadingComponent />;
   } else {
     return (
-      <Modal open={props.isOpenAdd} onClose={props.onCloseAdd}>
+      <Modal open={props.isOpenEdit} onClose={props.onCloseEdit}>
         <Box sx={style}>
-          <h2 style={{ textAlign: 'left' }}>Add</h2>
+          <h2 style={{ textAlign: 'left' }}>Edit</h2>
           <Formik
             initialValues={{
-              fullname: '',
-              phonenumber: '',
-              email: '',
-              birthdate: '',
+              staffcode: props.dataEditing.staffcode,
+              fullname: props.dataEditing.fullname,
+              phonenumber: props.dataEditing.phonenumber,
+              email: props.dataEditing.email,
+              birthdate: props.dataEditing.birthdate,
             }}
             validationSchema={validate}
             onSubmit={onSubmit}
-            render={({ errors, touched }) => (
+            render={({ errors, status, touched }) => (
               <Form>
+                <FormGroup>
+                  <Label htmlFor="staffcode">Mã nhân viên</Label>
+                  <Field
+                    name="staffcode"
+                    type="text"
+                    className={
+                      'form-control' +
+                      (errors.staffcode && touched.staffcode
+                        ? ' is-invalid'
+                        : '')
+                    }
+                    disabled
+                  />
+                  <ErrorMessage
+                    name="staffcode"
+                    component="div"
+                    className="invalid-feedback"
+                  />
+                </FormGroup>
                 <FormGroup>
                   <Label htmlFor="fullname">Họ và tên</Label>
                   <Field
@@ -125,7 +147,7 @@ function StaffAdd(props: any) {
                   />
                 </FormGroup>
                 <div className="btnSubmit">
-                  <button type="submit">Thêm</button>
+                  <button type="submit">Sửa</button>
                 </div>
               </Form>
             )}
@@ -136,4 +158,4 @@ function StaffAdd(props: any) {
   }
 }
 
-export default StaffAdd;
+export default StaffEdit;
