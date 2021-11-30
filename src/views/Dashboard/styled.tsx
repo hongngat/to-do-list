@@ -6,10 +6,11 @@ export const WrapperBox = {
     width: '100%',
     background: '#fff',
     marginBottom: '30px',
+    paddingBottom: '30px',
   })),
   Header: styled('div')(() => ({
     borderBottom: '1px solid #eeeeee',
-    padding: '10px 15px 13px',
+    padding: '15px 15px 13px',
     display: 'flex',
     justifyContent: 'space-between',
     h5: {
