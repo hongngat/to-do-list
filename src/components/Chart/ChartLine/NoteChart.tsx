@@ -7,7 +7,7 @@ const NoteChart = (props: any) => {
         {props.data.map((item: any, index: any) => {
           return (
             <Grid key={index} style={{ textAlign: 'center' }} xs={4}>
-              <NoteChartBox.Title>New Users</NoteChartBox.Title>
+              <NoteChartBox.Title>{item.name}</NoteChartBox.Title>
               <NoteChartBox.Content>
                 {item.data.reduce(
                   (totalCalories: any, meal: any) => totalCalories + meal.y,

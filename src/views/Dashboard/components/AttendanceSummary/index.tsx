@@ -2,6 +2,7 @@ import ChartLine from 'components/Chart/ChartLine';
 import { WrapperBox, InputStyle } from '../../styled';
 const AttendanceSummary = () => {
   const dataChart1 = {
+    name: 'New Users',
     color: '#78BB7B',
     data: [
       { x: 1, y: 89 },
@@ -19,6 +20,7 @@ const AttendanceSummary = () => {
     ],
   };
   const dataChart2 = {
+    name: 'Visits',
     color: '#A8A8A8',
     data: [
       { x: 1, y: 40 },
