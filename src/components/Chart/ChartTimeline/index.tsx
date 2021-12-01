@@ -34,7 +34,6 @@ const ChartTimeline = (props: any) => {
       y0: item.date_from,
     };
   });
-  console.log(dataChart);
   return (
     <VictoryChartWrapper.Box>
       <VictoryChart
