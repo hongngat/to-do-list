@@ -3,8 +3,6 @@ import {
   VictoryChart,
   VictoryLine,
   VictoryLabel,
-  VictoryZoomContainer,
-  VictoryVoronoiContainer,
   VictoryTooltip,
   createContainer,
 } from 'victory';
