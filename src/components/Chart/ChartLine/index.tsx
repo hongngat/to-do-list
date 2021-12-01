@@ -1,14 +1,58 @@
-import { VictoryChart, VictoryLine } from 'victory';
+import { useState } from 'react';
+import {
+  VictoryChart,
+  VictoryLine,
+  VictoryLabel,
+  VictoryZoomContainer,
+  VictoryVoronoiContainer,
+  VictoryTooltip,
+  createContainer,
+} from 'victory';
+import { VictoryVoronoiContainerProps } from 'victory-voronoi-container';
+import { VictoryZoomContainerProps } from 'victory-zoom-container';
 import { VictoryChartWrapper } from '../styled';
 import NoteChart from './NoteChart';
 interface ValueData {
   data?: any;
   categoriesX?: any;
 }
+
+const VictoryZoomVoronoiContainer = createContainer<
+  VictoryVoronoiContainerProps,
+  VictoryZoomContainerProps
+>('zoom', 'voronoi');
+
 const ChartLine = ({ data, categoriesX }: ValueData) => {
+  const [zoom, setZoom] = useState({});
+  const handleZoom = (domain: any) => {
+    setZoom({ domain });
+  };
+
+  const handleBrush = (domain: any) => {
+    setZoom({ domain });
+  };
   return (
     <VictoryChartWrapper.Box>
-      <VictoryChart height={200}>
+      <VictoryChart
+        height={200}
+        scale={{ x: 'time' }}
+        containerComponent={
+          <VictoryZoomVoronoiContainer
+            responsive={true}
+            zoomDimension="x"
+            zoomDomain={zoom}
+            onZoomDomainChange={handleZoom.bind(this)}
+            voronoiDimension="x"
+            labels={({ datum }) => `y: ${datum.y}`}
+            labelComponent={
+              <VictoryTooltip
+                cornerRadius={0}
+                flyoutStyle={{ fill: 'white' }}
+              />
+            }
+          />
+        }
+      >
         {data &&
           data.map((item: any, index: any) => {
             return (
@@ -17,32 +61,8 @@ const ChartLine = ({ data, categoriesX }: ValueData) => {
                 style={{
                   data: { stroke: item.color },
                   parent: { border: '1px solid #ccc' },
+                  labels: { fontSize: 7 },
                 }}
-                events={[
-                  {
-                    target: 'parent',
-                    eventHandlers: {
-                      onClick: () => {
-                        return [
-                          {
-                            target: 'data',
-                            eventKey: 'all',
-                            mutation: ({ style }) => {
-                              return style.stroke === '#8D6ECC'
-                                ? null
-                                : {
-                                    style: {
-                                      stroke: '#8D6ECC',
-                                      strokeWidth: 3,
-                                    },
-                                  };
-                            },
-                          },
-                        ];
-                      },
-                    },
-                  },
-                ]}
                 data={item.data}
                 categories={{ x: categoriesX }}
                 animate={{
