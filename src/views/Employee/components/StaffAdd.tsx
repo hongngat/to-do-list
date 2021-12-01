@@ -33,8 +33,12 @@ function StaffAdd(props: any) {
             .indexOf(value) < 0,
       }),
   });
+  
   const onSubmit = async (fields: any) => {
-    await mutate(fields);
+    var today = new Date();
+    const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    const data = {...fields, created_date:date};
+    await mutate(data);
     props.onCloseAdd();
   };
   if (isLoading) {

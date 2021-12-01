@@ -28,9 +28,6 @@ const ChartLine = ({ data, categoriesX }: ValueData) => {
     setZoom({ domain });
   };
 
-  const handleBrush = (domain: any) => {
-    setZoom({ domain });
-  };
   return (
     <VictoryChartWrapper.Box>
       <VictoryChart
