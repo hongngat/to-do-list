@@ -71,6 +71,10 @@ const ChartTimeline = (props: any) => {
           data={dataChart}
           labels={({ datum }) => datum.x}
           labelComponent={<VictoryLabel dx={-50} />}
+          animate={{
+            duration: 4000,
+            onLoad: { duration: 2000 },
+          }}
           style={{
             labels: {
               fontSize: 7,
