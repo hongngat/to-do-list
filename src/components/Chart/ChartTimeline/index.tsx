@@ -52,7 +52,7 @@ const ChartTimeline = (props: any) => {
               <VictoryTooltip
                 cornerRadius={0}
                 dx={0}
-                centerOffset={{ y: -30, x: -120 }}
+                centerOffset={{ y: -30, x: -100 }}
                 flyoutStyle={{ fill: '#000' }}
                 pointerOrientation="bottom"
                 flyoutPadding={({ text }) =>
