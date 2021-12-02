@@ -56,6 +56,7 @@ const Employee = () => {
             onCloseEdit={onCloseEdit}
             isOpenEdit={isOpenEdit}
             dataEditing={dataEditing}
+            data={data}
           />
         ) : null}
 
