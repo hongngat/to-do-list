@@ -16,6 +16,13 @@ const VictoryZoomVoronoiContainer = createContainer<
   VictoryZoomContainerProps
 >('zoom', 'voronoi');
 
+const formatDate = (date: any) =>
+  new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(date);
+
 const ChartTimeline = (props: any) => {
   const dataChart = props.data.map((item: any) => {
     return {
@@ -38,8 +45,8 @@ const ChartTimeline = (props: any) => {
             zoomDimension="y"
             voronoiDimension="x"
             labels={({ datum }) => `${datum.x}
-            Start date: ${datum.y0}
-            End date: ${datum.y}
+            Start date: ${formatDate(datum.y)}
+            End date: ${formatDate(datum.y0)}
             status: ${datum.status.status_uuid}`}
             labelComponent={
               <VictoryTooltip
