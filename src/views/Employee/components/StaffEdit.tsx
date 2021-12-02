@@ -23,16 +23,7 @@ function StaffEdit(props: any) {
     email: Yup.string()
       .email('Email is invalid')
       .required('Email is required')
-      .matches(emailRex, 'Email isvalid')
-      .test({
-        message: 'Email already exists',
-        test: (value) =>
-          props.data
-            .map((i: any, k: any) => {
-              return i.email;
-            })
-            .indexOf(value) < 0,
-      }),
+      .matches(emailRex, 'Email isvalid'),
   });
 
   const onSubmit = async (fields: any) => {
