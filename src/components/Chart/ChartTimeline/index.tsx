@@ -16,22 +16,43 @@ const VictoryZoomVoronoiContainer = createContainer<
   VictoryZoomContainerProps
 >('zoom', 'voronoi');
 
-interface ValueData {
-  x?: any;
-  y?: any;
-  y0?: any;
-}
+const formatDate = (date: any) =>
+  new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(date);
+
 const ChartTimeline = (props: any) => {
   const [zoom, setZoom] = useState({});
   const handleZoom = (domain: any) => {
     setZoom({ domain });
   };
+
+  const currentDate = new Date();
+  const sortedActivities = props.data.sort(function (x: any, y: any) {
+    return x.date_from - y.date_from;
+  });
+
+  const arr: any = [];
+  const dateFrom = sortedActivities[0].date_from;
+
+  for (
+    const dt = new Date(formatDate(dateFrom));
+    dt <= currentDate;
+    dt.setDate(dt.getDate() + 1)
+  ) {
+    arr.push(formatDate(new Date(dt)));
+  }
   const dataChart = props.data.map((item: any) => {
     return {
       ...item,
       x: item.name,
-      y: item.date_to == null ? new Date().getFullYear() : item.date_to,
-      y0: item.date_from,
+      y:
+        item.date_to == null
+          ? formatDate(currentDate)
+          : formatDate(item.date_to),
+      y0: formatDate(item.date_from),
     };
   });
   return (
@@ -89,10 +110,7 @@ const ChartTimeline = (props: any) => {
             },
           }}
         />
-        <VictoryAxis
-          dependentAxis
-          tickValues={[2016, 2017, 2018, 2019, 2020, 2021]}
-        />
+        <VictoryAxis dependentAxis tickValues={arr.map((d: any) => d)} />
       </VictoryChart>
     </VictoryChartWrapper.Box>
   );
