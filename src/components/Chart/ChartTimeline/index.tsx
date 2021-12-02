@@ -10,49 +10,22 @@ import {
 import { VictoryChartWrapper } from '../styled';
 import { VictoryVoronoiContainerProps } from 'victory-voronoi-container';
 import { VictoryZoomContainerProps } from 'victory-zoom-container';
-
 const VictoryZoomVoronoiContainer = createContainer<
   VictoryVoronoiContainerProps,
   VictoryZoomContainerProps
 >('zoom', 'voronoi');
 
-const formatDate = (date: any) =>
-  new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).format(date);
-
 const ChartTimeline = (props: any) => {
-  const [zoom, setZoom] = useState({});
-  const handleZoom = (domain: any) => {
-    setZoom({ domain });
-  };
-
   const currentDate = new Date();
-  const sortedActivities = props.data.sort(function (x: any, y: any) {
-    return x.date_from - y.date_from;
-  });
-
-  const arr: any = [];
-  const dateFrom = sortedActivities[0].date_from;
-
-  for (
-    const dt = new Date(formatDate(dateFrom));
-    dt <= currentDate;
-    dt.setDate(dt.getDate() + 1)
-  ) {
-    arr.push(formatDate(new Date(dt)));
-  }
   const dataChart = props.data.map((item: any) => {
     return {
       ...item,
       x: item.name,
       y:
-        item.date_to == null
-          ? formatDate(currentDate)
-          : formatDate(item.date_to),
-      y0: formatDate(item.date_from),
+        item.date_from == null
+          ? new Date(currentDate)
+          : new Date(item.date_from),
+      y0: item.date_to ? new Date(item.date_to) : new Date(),
     };
   });
   return (
@@ -66,8 +39,6 @@ const ChartTimeline = (props: any) => {
           <VictoryZoomVoronoiContainer
             responsive={true}
             zoomDimension="y"
-            zoomDomain={zoom}
-            onZoomDomainChange={handleZoom.bind(this)}
             voronoiDimension="x"
             labels={({ datum }) => `${datum.x}
             Start date: ${datum.y0}
@@ -91,12 +62,6 @@ const ChartTimeline = (props: any) => {
         <VictoryBar
           data={dataChart}
           labels={({ datum }) => datum.x}
-          //   y0={(d) => d.y}
-          labelComponent={<VictoryLabel dx={-50} />}
-          animate={{
-            duration: 4000,
-            onLoad: { duration: 2000 },
-          }}
           style={{
             labels: {
               fontSize: 7,
@@ -111,7 +76,7 @@ const ChartTimeline = (props: any) => {
             },
           }}
         />
-        <VictoryAxis dependentAxis scale="time" />
+        <VictoryAxis dependentAxis scale="time" standalone={false} />
       </VictoryChart>
     </VictoryChartWrapper.Box>
   );
