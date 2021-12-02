@@ -22,7 +22,10 @@ const formatDate = (date: any) =>
     month: '2-digit',
     day: '2-digit',
   }).format(date);
-
+const formatYear = (date: any) =>
+  new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+  }).format(date);
 const ChartTimeline = (props: any) => {
   const [zoom, setZoom] = useState({});
   const handleZoom = (domain: any) => {
@@ -68,7 +71,7 @@ const ChartTimeline = (props: any) => {
             zoomDimension="y"
             zoomDomain={zoom}
             onZoomDomainChange={handleZoom.bind(this)}
-            voronoiDimension="y"
+            voronoiDimension="x"
             labels={({ datum }) => `${datum.x}
             Start date: ${datum.y0}
             End date: ${datum.y}
@@ -91,6 +94,7 @@ const ChartTimeline = (props: any) => {
         <VictoryBar
           data={dataChart}
           labels={({ datum }) => datum.x}
+          y0={(d) => d.y0}
           labelComponent={<VictoryLabel dx={-50} />}
           animate={{
             duration: 4000,
@@ -110,7 +114,7 @@ const ChartTimeline = (props: any) => {
             },
           }}
         />
-        <VictoryAxis dependentAxis tickValues={arr.map((d: any) => d)} />
+        <VictoryAxis dependentAxis scale="time" />
       </VictoryChart>
     </VictoryChartWrapper.Box>
   );

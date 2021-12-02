@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {
   VictoryChart,
   VictoryLine,
-  VictoryLabel,
+  VictoryAxis,
   VictoryTooltip,
   createContainer,
 } from 'victory';
