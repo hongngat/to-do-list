@@ -22,10 +22,7 @@ const formatDate = (date: any) =>
     month: '2-digit',
     day: '2-digit',
   }).format(date);
-const formatYear = (date: any) =>
-  new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-  }).format(date);
+
 const ChartTimeline = (props: any) => {
   const [zoom, setZoom] = useState({});
   const handleZoom = (domain: any) => {
@@ -94,7 +91,7 @@ const ChartTimeline = (props: any) => {
         <VictoryBar
           data={dataChart}
           labels={({ datum }) => datum.x}
-          y0={(d) => d.y0}
+          //   y0={(d) => d.y}
           labelComponent={<VictoryLabel dx={-50} />}
           animate={{
             duration: 4000,
