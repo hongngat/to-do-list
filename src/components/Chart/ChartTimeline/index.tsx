@@ -10,21 +10,18 @@ import {
 import { VictoryChartWrapper } from '../styled';
 import { VictoryVoronoiContainerProps } from 'victory-voronoi-container';
 import { VictoryZoomContainerProps } from 'victory-zoom-container';
+
 const VictoryZoomVoronoiContainer = createContainer<
   VictoryVoronoiContainerProps,
   VictoryZoomContainerProps
 >('zoom', 'voronoi');
 
 const ChartTimeline = (props: any) => {
-  const currentDate = new Date();
   const dataChart = props.data.map((item: any) => {
     return {
       ...item,
       x: item.name,
-      y:
-        item.date_from == null
-          ? new Date(currentDate)
-          : new Date(item.date_from),
+      y: item.date_from == null ? new Date() : new Date(item.date_from),
       y0: item.date_to ? new Date(item.date_to) : new Date(),
     };
   });
@@ -48,7 +45,7 @@ const ChartTimeline = (props: any) => {
               <VictoryTooltip
                 cornerRadius={0}
                 dx={0}
-                centerOffset={{ y: -30, x: -80 }}
+                centerOffset={{ y: -30, x: -120 }}
                 flyoutStyle={{ fill: '#000' }}
                 pointerOrientation="bottom"
                 flyoutPadding={({ text }) =>
@@ -69,7 +66,7 @@ const ChartTimeline = (props: any) => {
             },
             data: {
               fill: ({ datum }) =>
-                datum.status.status_uuid ===
+                datum.status.status_uuid ==
                 '6ffeded6-5c59-436b-aa16-c938e46fac28'
                   ? '#2D9D78'
                   : '#6E6E6E',
