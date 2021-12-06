@@ -53,7 +53,7 @@ const ChartTimeline = (props: any) => {
                 cornerRadius={0}
                 dx={0}
                 centerOffset={{ y: -30, x: -100 }}
-                flyoutStyle={{ fill: '#000' }}
+                flyoutStyle={{ fill: '#8D6ECC', stroke: 'none' }}
                 pointerOrientation="bottom"
                 flyoutPadding={({ text }) =>
                   text.length > 1 ? { top: 0, bottom: 0, left: 0, right: 0 } : 0
@@ -75,8 +75,8 @@ const ChartTimeline = (props: any) => {
               fill: ({ datum }) =>
                 datum.status.status_uuid ==
                 '6ffeded6-5c59-436b-aa16-c938e46fac28'
-                  ? '#2D9D78'
-                  : '#6E6E6E',
+                  ? '#78BB7B'
+                  : '#A8A8A8',
             },
           }}
         />

@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import TheSidebar from './TheSidebar';
 import TheHeader from './TheHeader';
 import TheFooter from './TheFooter';
@@ -6,7 +6,7 @@ import TheContent from './TheContent';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
-import {Wrapper,Body} from './styled'
+import { Wrapper, Body } from './styled';
 const drawerWidth = 240;
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean;
@@ -27,23 +27,33 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   }),
 }));
 function TheLayout(): JSX.Element {
-    const theme = useTheme();
+  const theme = useTheme();
   const [open, setOpen] = useState(true);
-  
+
   return (
     <div className="default-layout">
       <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <TheSidebar open={open} setOpen={setOpen} theme={theme} drawerWidth={drawerWidth}/>
-      <Wrapper>
-        <TheHeader open={open} setOpen={setOpen} theme={theme} drawerWidth={drawerWidth}/>
-        <Body>
-          <Main open={open} style={{padding:"64px 0px 0px"}}>
-            <TheContent />
-          </Main>
-        </Body>
-        <TheFooter />
-      </Wrapper>
+        <CssBaseline />
+        <TheSidebar
+          open={open}
+          setOpen={setOpen}
+          theme={theme}
+          drawerWidth={drawerWidth}
+        />
+        <Wrapper>
+          <TheHeader
+            open={open}
+            setOpen={setOpen}
+            theme={theme}
+            drawerWidth={drawerWidth}
+          />
+          <Body>
+            <Main open={open} style={{ padding: '64px 0px 0px' }}>
+              <TheContent />
+            </Main>
+          </Body>
+          <TheFooter />
+        </Wrapper>
       </Box>
     </div>
   );
