@@ -3,12 +3,12 @@ import { WrapperBox, InputStyle } from '../../styled';
 
 const AttendanceSummary = (props: any) => {
   var occurences = props.data.reduce(function (r: any, row: any) {
-    r[row.created_date] = ++r[row.created_date] || 1;
+    r[row.created_date] = ++r[row.created_date] || 0;
     return r;
   }, {});
 
   var result = Object.keys(occurences).map(function (key) {
-    return { x: key, y: occurences[key] };
+    return { x: new Date(key), y: occurences[key] };
   });
 
   const dataChart1 = {
@@ -22,7 +22,7 @@ const AttendanceSummary = (props: any) => {
       <WrapperBox.Box>
         <WrapperBox.Header>
           <h5>Attendance Summary</h5>
-          <div style={{ display: 'flex' }}>
+          {/* <div style={{ display: 'flex' }}>
             <InputStyle.InputGroup>
               <InputStyle.Label>From:</InputStyle.Label>
               <InputStyle.Input type="date" />
@@ -31,7 +31,7 @@ const AttendanceSummary = (props: any) => {
               <InputStyle.Label>To:</InputStyle.Label>
               <InputStyle.Input type="date" />
             </InputStyle.InputGroup>
-          </div>
+          </div> */}
         </WrapperBox.Header>
         <ChartLine data={dataChart} />
       </WrapperBox.Box>
