@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import {
+  createContainer,
   VictoryChart,
   VictoryLine,
-  VictoryAxis,
   VictoryTooltip,
-  createContainer,
 } from 'victory';
 import { VictoryVoronoiContainerProps } from 'victory-voronoi-container';
 import { VictoryZoomContainerProps } from 'victory-zoom-container';

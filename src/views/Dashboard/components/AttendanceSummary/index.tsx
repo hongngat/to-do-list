@@ -1,9 +1,9 @@
 import ChartLine from 'components/Chart/ChartLine';
-import { WrapperBox, InputStyle } from '../../styled';
+import { WrapperBox } from '../../styled';
 
 const AttendanceSummary = (props: any) => {
   var occurences = props.data.reduce(function (r: any, row: any) {
-    r[row.created_date] = ++r[row.created_date] || 0;
+    r[row.created_date] = ++r[row.created_date] || 1;
     return r;
   }, {});
 

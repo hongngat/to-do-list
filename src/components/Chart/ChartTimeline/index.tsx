@@ -1,15 +1,13 @@
-import { useState } from 'react';
 import {
-  VictoryChart,
-  VictoryBar,
-  VictoryAxis,
-  VictoryLabel,
-  VictoryTooltip,
   createContainer,
+  VictoryAxis,
+  VictoryBar,
+  VictoryChart,
+  VictoryTooltip,
 } from 'victory';
-import { VictoryChartWrapper } from '../styled';
 import { VictoryVoronoiContainerProps } from 'victory-voronoi-container';
 import { VictoryZoomContainerProps } from 'victory-zoom-container';
+import { VictoryChartWrapper } from '../styled';
 
 const VictoryZoomVoronoiContainer = createContainer<
   VictoryVoronoiContainerProps,
