@@ -12,7 +12,6 @@ import { VictoryChartWrapper } from '../styled';
 import NoteChart from './NoteChart';
 interface ValueData {
   data?: any;
-  categoriesX?: any;
 }
 
 const VictoryZoomVoronoiContainer = createContainer<
@@ -20,7 +19,7 @@ const VictoryZoomVoronoiContainer = createContainer<
   VictoryZoomContainerProps
 >('zoom', 'voronoi');
 
-const ChartLine = ({ data, categoriesX }: ValueData) => {
+const ChartLine = ({ data }: ValueData) => {
   const [zoom, setZoom] = useState({});
   const handleZoom = (domain: any) => {
     setZoom({ domain });
@@ -30,7 +29,6 @@ const ChartLine = ({ data, categoriesX }: ValueData) => {
     <VictoryChartWrapper.Box>
       <VictoryChart
         height={200}
-        scale={{ x: 'time' }}
         containerComponent={
           <VictoryZoomVoronoiContainer
             responsive={true}
@@ -59,7 +57,6 @@ const ChartLine = ({ data, categoriesX }: ValueData) => {
                   labels: { fontSize: 7 },
                 }}
                 data={item.data}
-                categories={{ x: categoriesX }}
                 animate={{
                   duration: 2000,
                   onLoad: { duration: 1000 },
@@ -68,6 +65,7 @@ const ChartLine = ({ data, categoriesX }: ValueData) => {
             );
           })}
       </VictoryChart>
+      {/* <VictoryAxis dependentAxis scale="time" standalone={false} /> */}
       <NoteChart data={data} />
     </VictoryChartWrapper.Box>
   );

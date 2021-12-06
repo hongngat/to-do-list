@@ -10,7 +10,7 @@ const NoteChart = (props: any) => {
               <NoteChartBox.Title>{item.name}</NoteChartBox.Title>
               <NoteChartBox.Content>
                 {item.data.reduce(
-                  (totalCalories: any, meal: any) => totalCalories + meal.y,
+                  (totalCalories: any, count: any) => totalCalories + count.y,
                   0
                 )}
                 <span>Users</span>
