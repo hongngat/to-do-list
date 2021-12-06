@@ -40,7 +40,7 @@ const ChartLine = ({ data }: ValueData) => {
             labelComponent={
               <VictoryTooltip
                 cornerRadius={0}
-                flyoutStyle={{ fill: 'white' }}
+                flyoutStyle={{ fill: '#8D6ECC', stroke: 'none' }}
               />
             }
           />
@@ -54,7 +54,7 @@ const ChartLine = ({ data }: ValueData) => {
                 style={{
                   data: { stroke: item.color },
                   parent: { border: '1px solid #ccc' },
-                  labels: { fontSize: 7 },
+                  labels: { fontSize: 7, fill: '#fff' },
                 }}
                 data={item.data}
                 animate={{
@@ -65,7 +65,6 @@ const ChartLine = ({ data }: ValueData) => {
             );
           })}
       </VictoryChart>
-      {/* <VictoryAxis dependentAxis scale="time" standalone={false} /> */}
       <NoteChart data={data} />
     </VictoryChartWrapper.Box>
   );
