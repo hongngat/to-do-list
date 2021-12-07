@@ -23,7 +23,6 @@ const ChartLine = ({ data }: ValueData) => {
   const handleZoom = (domain: any) => {
     setZoom({ domain });
   };
-  console.log(data);
   return (
     <VictoryChartWrapper.Box>
       <VictoryChart
