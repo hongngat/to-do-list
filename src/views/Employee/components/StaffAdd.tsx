@@ -1,7 +1,8 @@
 import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { FormGroup, Label, style } from '../../Employee/styled';
+import { FormGroup, Label } from '../../Employee/styled';
+import { ModalStyle } from '../../../themes/Modal';
 import { postEmployee } from '../../../api/EmployeeAPI';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
@@ -51,7 +52,7 @@ function StaffAdd(props: any) {
   } else {
     return (
       <Modal open={props.isOpenAdd} onClose={props.onCloseAdd}>
-        <Box sx={style}>
+        <Box sx={ModalStyle}>
           <h2 style={{ textAlign: 'left' }}>Add</h2>
           <Formik
             initialValues={{

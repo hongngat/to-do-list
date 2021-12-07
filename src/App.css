@@ -89,3 +89,10 @@ a {
 .VictoryContainer text tspan {
     font-size: 7px !important;
 }
+
+.invalid-feedback {
+    color: red;
+    font-size: 12px;
+    text-align: left;
+    margin-top: 10px;
+}

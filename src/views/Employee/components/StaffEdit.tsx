@@ -1,6 +1,7 @@
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { FormGroup, Label, style } from '../../Employee/styled';
+import { FormGroup, Label } from '../../Employee/styled';
+import { ModalStyle } from '../../../themes/Modal';
 import { putEmployee } from '../../../api/EmployeeAPI';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
@@ -36,7 +37,7 @@ function StaffEdit(props: any) {
   } else {
     return (
       <Modal open={props.isOpenEdit} onClose={props.onCloseEdit}>
-        <Box sx={style}>
+        <Box sx={ModalStyle}>
           <h2 style={{ textAlign: 'left' }}>Edit</h2>
           <Formik
             initialValues={{
