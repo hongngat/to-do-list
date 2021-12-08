@@ -65,7 +65,7 @@ function StaffAdd(props: any) {
             render={({ errors, touched }) => (
               <Form>
                 <FormGroup>
-                  <Label htmlFor="fullname">Họ và tên</Label>
+                  <Label htmlFor="fullname">Fullname</Label>
                   <Field
                     name="fullname"
                     type="text"
@@ -81,7 +81,7 @@ function StaffAdd(props: any) {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label htmlFor="phonenumber">Số điện thoại</Label>
+                  <Label htmlFor="phonenumber">Your phone</Label>
                   <Field
                     name="phonenumber"
                     type="text"
@@ -133,7 +133,7 @@ function StaffAdd(props: any) {
                   />
                 </FormGroup>
                 <div className="btnSubmit">
-                  <button type="submit">Thêm</button>
+                  <button type="submit">Submit</button>
                 </div>
               </Form>
             )}

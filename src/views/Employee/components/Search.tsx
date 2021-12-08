@@ -22,13 +22,13 @@ function Search(props: any) {
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item lg={4} xs={12}>
           <FormGroup>
-            <Label htmlFor="staffcode">Mã nhân viên</Label>
+            <Label htmlFor="staffcode">Staff Code</Label>
             <input name="staffcode" type="text" onChange={handleChange} />
           </FormGroup>
         </Grid>
         <Grid item lg={4} xs={12}>
           <FormGroup>
-            <Label htmlFor="fullname">Tên nhân viên</Label>
+            <Label htmlFor="fullname">Staff Name</Label>
             <input name="fullname" type="text" onChange={handleChange} />
           </FormGroup>
         </Grid>

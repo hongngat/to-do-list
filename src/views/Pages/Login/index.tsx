@@ -33,7 +33,8 @@ const Login = () => {
       .required('Password is required')
       .test({
         message: `Password is wrong`,
-        test: (value) => data.filter((i: any) => i.password === value),
+        test: (value) =>
+          data.filter((i: any) => i.password === value).length > 0,
       }),
   });
 
@@ -75,7 +76,7 @@ const Login = () => {
                         <Field
                           name="email"
                           type="text"
-                          placeholder="Nhập email"
+                          placeholder="Email"
                           className={
                             'form-control' +
                             (errors.email && touched.email ? ' is-invalid' : '')
@@ -91,7 +92,7 @@ const Login = () => {
                         <Field
                           name="password"
                           type="text"
-                          placeholder="Nhập password"
+                          placeholder="Password"
                           className={
                             'form-control' +
                             (errors.password && touched.password

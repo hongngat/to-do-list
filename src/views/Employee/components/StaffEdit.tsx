@@ -51,7 +51,7 @@ function StaffEdit(props: any) {
             render={({ errors, status, touched }) => (
               <Form>
                 <FormGroup>
-                  <Label htmlFor="staffcode">Mã nhân viên</Label>
+                  <Label htmlFor="staffcode">Staff code</Label>
                   <Field
                     name="staffcode"
                     type="text"
@@ -70,7 +70,7 @@ function StaffEdit(props: any) {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label htmlFor="fullname">Họ và tên</Label>
+                  <Label htmlFor="fullname">Full name</Label>
                   <Field
                     name="fullname"
                     type="text"
@@ -86,7 +86,7 @@ function StaffEdit(props: any) {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label htmlFor="phonenumber">Số điện thoại</Label>
+                  <Label htmlFor="phonenumber">Your phone</Label>
                   <Field
                     name="phonenumber"
                     type="text"
@@ -120,7 +120,7 @@ function StaffEdit(props: any) {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label htmlFor="birthdate">Ngày sinh</Label>
+                  <Label htmlFor="birthdate">Birth date</Label>
                   <Field
                     name="birthdate"
                     type="date"
@@ -138,7 +138,7 @@ function StaffEdit(props: any) {
                   />
                 </FormGroup>
                 <div className="btnSubmit">
-                  <button type="submit">Sửa</button>
+                  <button type="submit">Edit</button>
                 </div>
               </Form>
             )}

@@ -66,7 +66,7 @@ const Register = () => {
                       <Field
                         name="fullname"
                         type="text"
-                        placeholder="Nhập fullname"
+                        placeholder="Fullname"
                         className={
                           'form-control' +
                           (errors.fullname && touched.fullname
@@ -84,7 +84,7 @@ const Register = () => {
                       <Field
                         name="email"
                         type="text"
-                        placeholder="Nhập email"
+                        placeholder="Email"
                         className={
                           'form-control' +
                           (errors.email && touched.email ? ' is-invalid' : '')
@@ -100,7 +100,7 @@ const Register = () => {
                       <Field
                         name="password"
                         type="text"
-                        placeholder="Nhập password"
+                        placeholder="Password"
                         className={
                           'form-control' +
                           (errors.password && touched.password

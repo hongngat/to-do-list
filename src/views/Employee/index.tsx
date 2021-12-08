@@ -38,7 +38,7 @@ const Employee = () => {
 
   return (
     <Container maxWidth="xl">
-      <h5 className="title">Tìm kiếm nhân viên</h5>
+      <h5 className="title">Employee Search</h5>
       <BoxStyle>
         <Search setSearchForm={setSearchForm} searchForm={searchForm} />
       </BoxStyle>
@@ -65,15 +65,15 @@ const Employee = () => {
           searchForm={searchForm}
           header={[
             {
-              name: 'Mã nhân viên',
+              name: 'Staff Code',
               prop: 'staffcode',
             },
             {
-              name: 'Họ và tên',
+              name: 'Full Name',
               prop: 'fullname',
             },
             {
-              name: 'Số điện thoại',
+              name: 'Phone Number',
               prop: 'phonenumber',
             },
             {
@@ -81,7 +81,7 @@ const Employee = () => {
               prop: 'email',
             },
             {
-              name: 'Ngày sinh',
+              name: 'Birth Date',
               prop: 'birthdate',
             },
           ]}
