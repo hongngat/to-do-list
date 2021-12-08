@@ -21,16 +21,15 @@ const Login = () => {
       .required('Email is required')
       .matches(emailRex, 'Email isvalid')
       .test({
-        message: 'Email already exists',
+        message: 'Email not exists',
         test: (value) =>
           data
             .map((i: any, k: any) => {
               return i.email;
             })
-            .indexOf(value) < 0,
+            .indexOf(value) > 0,
       }),
     password: Yup.string()
-      .email('Password is invalid')
       .required('Password is required')
       .test({
         message: 'Password is wrong',
@@ -68,7 +67,7 @@ const Login = () => {
                     email: '',
                     password: '',
                   }}
-                  // validationSchema={validate}
+                  validationSchema={validate}
                   onSubmit={onSubmit}
                   render={({ errors, touched }) => (
                     <Form>
