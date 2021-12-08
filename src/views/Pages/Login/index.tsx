@@ -28,7 +28,7 @@ const Login = () => {
             .map((i: any, k: any) => {
               return i.email;
             })
-            .indexOf(value) > 0,
+            .indexOf(value) >= 0,
       }),
     password: Yup.string()
       .required('Password is required')
