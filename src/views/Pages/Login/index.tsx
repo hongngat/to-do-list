@@ -15,6 +15,7 @@ const Login = () => {
   const { onLoginAccount, isLogin } = useContext(Context);
   const { data, isLoading } = useQuery('employeeLists', getEmployee);
   const emailRex = /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/;
+
   const validate = Yup.object().shape({
     email: Yup.string()
       .email('Email is invalid')
