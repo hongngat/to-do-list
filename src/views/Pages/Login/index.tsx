@@ -13,14 +13,13 @@ import { getEmployee } from '../../../api/EmployeeAPI';
 const Login = () => {
   const { isOpen, onClose, onOpen } = useModal();
   const { onLoginAccount, isLogin } = useContext(Context);
-  const { data, isLoading } = useQuery('employeeLists', getEmployee);
+  const { data } = useQuery('employeeLists', getEmployee);
   const emailRex = /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/;
 
   const validate = Yup.object().shape({
     email: Yup.string()
-      .email('Email is invalid')
       .required('Email is required')
-      .matches(emailRex, 'Email isvalid')
+      .matches(emailRex, 'Email is invalid')
       .test({
         message: 'Email not exists',
         test: (value) =>
@@ -33,7 +32,7 @@ const Login = () => {
     password: Yup.string()
       .required('Password is required')
       .test({
-        message: 'Password is wrong',
+        message: `Password is wrong`,
         test: (value) => data.filter((i: any) => i.password === value),
       }),
   });

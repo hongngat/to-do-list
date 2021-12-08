@@ -22,9 +22,8 @@ function StaffEdit(props: any) {
       .required('Phone Number is required')
       .matches(phonenumberRex, 'Phone number isvalid'),
     email: Yup.string()
-      .email('Email is invalid')
       .required('Email is required')
-      .matches(emailRex, 'Email isvalid'),
+      .matches(emailRex, 'Email is invalid'),
   });
 
   const onSubmit = async (fields: any) => {

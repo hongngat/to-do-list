@@ -20,9 +20,8 @@ const Register = () => {
   const validate = Yup.object().shape({
     fullname: Yup.string().required('Full Name is required'),
     email: Yup.string()
-      .email('Email is invalid')
       .required('Email is required')
-      .matches(emailRex, 'Email isvalid')
+      .matches(emailRex, 'Email is invalid')
       .test({
         message: 'Email already exists',
         test: (value) =>
