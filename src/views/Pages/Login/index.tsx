@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { FormStyle } from '../styled';
 import Grid from '@mui/material/Grid';
-import bannerLogin from '../../../assets/images/bannerLogin.jpg';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import ForgotPassword from './ForgotPassword';
 import useModal from '../../../hook/Modal/useModal';
@@ -10,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useQuery } from 'react-query';
 import { getEmployee } from '../../../api/EmployeeAPI';
+
 const Login = () => {
   const { isOpen, onClose, onOpen } = useModal();
   const { onLoginAccount, isLogin } = useContext(Context);
@@ -50,11 +50,9 @@ const Login = () => {
   return (
     <>
       <FormStyle.Wrapper>
-        <Grid container rowSpacing={1} style={{ height: '100%' }}>
-          <Grid lg={3}>
-            <FormStyle.ImageLeft bgr={bannerLogin} />
-          </Grid>
-          <Grid lg={9} style={{ position: 'relative' }}>
+        <FormStyle.GridBox>
+          <Grid lg={3} md={4} xs={0}></Grid>
+          <Grid lg={9} xs={12} md={8} style={{ position: 'relative' }}>
             <FormStyle.Logo>
               <FormStyle.Link href="/" color={'#8D6ECC'} fontSize="30px">
                 My App
@@ -130,7 +128,7 @@ const Login = () => {
               </FormStyle.Box>
             </FormStyle.FormBox>
           </Grid>
-        </Grid>
+        </FormStyle.GridBox>
       </FormStyle.Wrapper>
       <ForgotPassword open={isOpen} onClose={onClose} />
     </>

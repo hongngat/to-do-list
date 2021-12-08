@@ -39,11 +39,9 @@ const Register = () => {
   }, [isLogin]);
   return (
     <FormStyle.Wrapper>
-      <Grid container rowSpacing={1} style={{ height: '100%' }}>
-        <Grid lg={3}>
-          <FormStyle.ImageLeft bgr={bannerLogin} />
-        </Grid>
-        <Grid lg={9} style={{ position: 'relative' }}>
+      <FormStyle.GridBox>
+        <Grid lg={3} md={4} xs={0}></Grid>
+        <Grid lg={9} xs={12} md={8} style={{ position: 'relative' }}>
           <FormStyle.Logo>
             <FormStyle.Link href="/" color={'#8D6ECC'} fontSize="30px">
               My App
@@ -131,7 +129,7 @@ const Register = () => {
             </FormStyle.Box>
           </FormStyle.FormBox>
         </Grid>
-      </Grid>
+      </FormStyle.GridBox>
     </FormStyle.Wrapper>
   );
 };

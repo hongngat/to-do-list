@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-
+import bannerLogin from '../../assets/images/bannerLogin.jpg';
 export const FormStyle = {
   Wrapper: styled('div')(() => ({
     height: '100vh',
@@ -27,6 +27,13 @@ export const FormStyle = {
     left: '50%',
     transform: 'translate(-50%,-50%)',
     width: '40%',
+    background: '#fff',
+    '@media (max-width: 768px)': {
+      width: '80%',
+    },
+    '@media (max-width: 1199px) and (min-width:768px)': {
+      width: '60%',
+    },
   })),
   Box: styled('div')(() => ({
     boxShadow: '0 0 5px #ccc',
@@ -75,5 +82,34 @@ export const FormStyle = {
     fontSize: '14px',
     color: '#8d6ecc',
     marginBottom: '15px',
+  })),
+  GridBox: styled('div')(() => ({
+    height: '100%',
+    position: 'relative',
+    boxSizing: 'border-box',
+    display: 'flex',
+    flexWrap: 'wrap',
+    width: '100%',
+    flexDirection: 'row',
+    '&::before': {
+      position: 'absolute',
+      content: '""',
+      top: '0',
+      left: '0',
+      width: '25%',
+      height: '100%',
+      background: `url(${bannerLogin}) no-repeat center`,
+      backgroundSize: 'cover',
+    },
+    '@media (max-width: 768px)': {
+      '&::before': {
+        width: '100%',
+      },
+    },
+    '@media (max-width: 1199px) and (min-width:768px)': {
+      '&::before': {
+        width: '32%',
+      },
+    },
   })),
 };
