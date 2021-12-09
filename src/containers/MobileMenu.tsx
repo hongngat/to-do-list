@@ -5,8 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Context } from '../contexts/Account';
-import { useNavigate } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
 const MobileMenu = (props: any) => {
   const isMobileMenuOpen = Boolean(props.mobileMoreAnchorEl);
   const { onLogoutAccount } = useContext(Context);
@@ -30,18 +29,20 @@ const MobileMenu = (props: any) => {
       open={isMobileMenuOpen}
       onClose={props.handleMobileMenuClose}
     >
-      <MenuItem onClick={props.handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>{props.userlogin ? props.userlogin.fullname : 'Profile'}</p>
-      </MenuItem>
+      <Link style={{ color: '#000' }} to="/profile">
+        <MenuItem>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+          <p>{props.userlogin ? props.userlogin.fullname : 'Profile'}</p>
+        </MenuItem>
+      </Link>
       <MenuItem onClick={onLogout}>
         <IconButton
           size="large"

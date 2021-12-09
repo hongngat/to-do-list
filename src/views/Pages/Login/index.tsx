@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useQuery } from 'react-query';
 import { getEmployee } from '../../../api/EmployeeAPI';
+import FormComponent from '../../../components/Form';
 
 const Login = () => {
   const { isOpen, onClose, onOpen } = useModal();
@@ -61,70 +62,46 @@ const Login = () => {
             <FormStyle.FormBox>
               <FormStyle.Box>
                 <FormStyle.Title>Login</FormStyle.Title>
-                <Formik
+                <FormComponent
                   initialValues={{
                     email: '',
                     password: '',
                   }}
-                  validationSchema={validate}
+                  validate={validate}
                   onSubmit={onSubmit}
-                  render={({ errors, touched }) => (
-                    <Form>
-                      <FormStyle.FormGroup>
-                        <Field
-                          name="email"
-                          type="text"
-                          placeholder="Email"
-                          className={
-                            'form-control' +
-                            (errors.email && touched.email ? ' is-invalid' : '')
-                          }
-                        />
-                        <ErrorMessage
-                          name="email"
-                          component="div"
-                          className="invalid-feedback"
-                        />
-                      </FormStyle.FormGroup>
-                      <FormStyle.FormGroup>
-                        <Field
-                          name="password"
-                          type="text"
-                          placeholder="Password"
-                          className={
-                            'form-control' +
-                            (errors.password && touched.password
-                              ? ' is-invalid'
-                              : '')
-                          }
-                        />
-                        <ErrorMessage
-                          name="password"
-                          component="div"
-                          className="invalid-feedback"
-                        />
-                      </FormStyle.FormGroup>
-
-                      <FormStyle.Button type="submit">Sign in</FormStyle.Button>
-                      <FormStyle.FlexBetween style={{ marginTop: '10px' }}>
-                        <FormStyle.Link
-                          fontSize="14px"
-                          color="#8D6ECC"
-                          onClick={onOpen}
-                        >
-                          Forgot password?
-                        </FormStyle.Link>
-                        <FormStyle.Link
-                          href="/register"
-                          fontSize="14px"
-                          color="#8D6ECC"
-                        >
-                          No Account? Register
-                        </FormStyle.Link>
-                      </FormStyle.FlexBetween>
-                    </Form>
-                  )}
+                  fields={[
+                    {
+                      label: 'Email',
+                      name: 'email',
+                      type: 'text',
+                      placeholder: 'Email',
+                    },
+                    {
+                      label: 'Password',
+                      name: 'password',
+                      type: 'text',
+                      placeholder: 'Email',
+                    },
+                  ]}
+                  buttonText="Sign in"
+                  buttonWidth="100%"
                 />
+                <FormStyle.FlexBetween style={{ marginTop: '10px' }}>
+                  <FormStyle.Link
+                    fontSize="14px"
+                    color="#8D6ECC"
+                    onClick={onOpen}
+                  >
+                    Forgot password?
+                  </FormStyle.Link>
+                  <FormStyle.Link
+                    href="/register"
+                    fontSize="14px"
+                    color="#8D6ECC"
+                  >
+                    No Account? Register
+                  </FormStyle.Link>
+                </FormStyle.FlexBetween>
               </FormStyle.Box>
             </FormStyle.FormBox>
           </Grid>

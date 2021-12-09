@@ -1,13 +1,12 @@
-import React from 'react';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { FormGroup, Label } from '../../Employee/styled';
-import { ModalStyle } from '../../../themes/Modal';
-import { postEmployee } from '../../../api/EmployeeAPI';
-import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import React from 'react';
+import * as Yup from 'yup';
+import { postEmployee } from '../../../api/EmployeeAPI';
+import FormComponent from '../../../components/Form';
 import LoadingComponent from '../../../components/Loading';
 import { useMutationAPI } from '../../../hook/QueryAPI';
+import { ModalStyle } from '../../../themes/Modal';
 
 function StaffAdd(props: any) {
   const emailRex = /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/;
@@ -46,6 +45,7 @@ function StaffAdd(props: any) {
     await mutate(data);
     props.onCloseAdd();
   };
+
   if (isLoading) {
     return <LoadingComponent />;
   } else {
@@ -53,90 +53,22 @@ function StaffAdd(props: any) {
       <Modal open={props.isOpenAdd} onClose={props.onCloseAdd}>
         <Box sx={ModalStyle}>
           <h2 style={{ textAlign: 'left' }}>Add</h2>
-          <Formik
+          <FormComponent
             initialValues={{
               fullname: '',
               phonenumber: '',
               email: '',
               birthdate: '',
             }}
-            validationSchema={validate}
+            validate={validate}
             onSubmit={onSubmit}
-            render={({ errors, touched }) => (
-              <Form>
-                <FormGroup>
-                  <Label htmlFor="fullname">Fullname</Label>
-                  <Field
-                    name="fullname"
-                    type="text"
-                    className={
-                      'form-control' +
-                      (errors.fullname && touched.fullname ? ' is-invalid' : '')
-                    }
-                  />
-                  <ErrorMessage
-                    name="fullname"
-                    component="div"
-                    className="invalid-feedback"
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label htmlFor="phonenumber">Your phone</Label>
-                  <Field
-                    name="phonenumber"
-                    type="text"
-                    className={
-                      'form-control' +
-                      (errors.phonenumber && touched.phonenumber
-                        ? ' is-invalid'
-                        : '')
-                    }
-                  />
-                  <ErrorMessage
-                    name="phonenumber"
-                    component="div"
-                    className="invalid-feedback"
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label htmlFor="email">Email</Label>
-                  <Field
-                    name="email"
-                    type="text"
-                    className={
-                      'form-control' +
-                      (errors.email && touched.email ? ' is-invalid' : '')
-                    }
-                  />
-                  <ErrorMessage
-                    name="email"
-                    component="div"
-                    className="invalid-feedback"
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label htmlFor="birthdate">Ngày sinh</Label>
-                  <Field
-                    name="birthdate"
-                    type="date"
-                    className={
-                      'form-control' +
-                      (errors.birthdate && touched.birthdate
-                        ? ' is-invalid'
-                        : '')
-                    }
-                  />
-                  <ErrorMessage
-                    name="birthdate"
-                    component="div"
-                    className="invalid-feedback"
-                  />
-                </FormGroup>
-                <div className="btnSubmit">
-                  <button type="submit">Submit</button>
-                </div>
-              </Form>
-            )}
+            fields={[
+              { label: 'Full name', name: 'fullname', type: 'text' },
+              { label: 'Your phone', name: 'phỏnenumber', type: 'text' },
+              { label: 'Email', name: 'email', type: 'text' },
+              { label: 'Birth Date', name: 'birthdate', type: 'text' },
+            ]}
+            buttonText="Submit"
           />
         </Box>
       </Modal>

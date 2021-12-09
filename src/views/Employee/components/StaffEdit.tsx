@@ -1,12 +1,11 @@
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { FormGroup, Label } from '../../Employee/styled';
-import { ModalStyle } from '../../../themes/Modal';
-import { putEmployee } from '../../../api/EmployeeAPI';
-import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import * as Yup from 'yup';
+import { putEmployee } from '../../../api/EmployeeAPI';
+import FormComponent from '../../../components/Form';
 import LoadingComponent from '../../../components/Loading';
 import { useMutationAPI } from '../../../hook/QueryAPI';
+import { ModalStyle } from '../../../themes/Modal';
 
 function StaffEdit(props: any) {
   const emailRex = /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/;
@@ -38,7 +37,7 @@ function StaffEdit(props: any) {
       <Modal open={props.isOpenEdit} onClose={props.onCloseEdit}>
         <Box sx={ModalStyle}>
           <h2 style={{ textAlign: 'left' }}>Edit</h2>
-          <Formik
+          <FormComponent
             initialValues={{
               staffcode: props.dataEditing.staffcode,
               fullname: props.dataEditing.fullname,
@@ -46,102 +45,16 @@ function StaffEdit(props: any) {
               email: props.dataEditing.email,
               birthdate: props.dataEditing.birthdate,
             }}
-            validationSchema={validate}
+            validate={validate}
             onSubmit={onSubmit}
-            render={({ errors, status, touched }) => (
-              <Form>
-                <FormGroup>
-                  <Label htmlFor="staffcode">Staff code</Label>
-                  <Field
-                    name="staffcode"
-                    type="text"
-                    className={
-                      'form-control' +
-                      (errors.staffcode && touched.staffcode
-                        ? ' is-invalid'
-                        : '')
-                    }
-                    disabled
-                  />
-                  <ErrorMessage
-                    name="staffcode"
-                    component="div"
-                    className="invalid-feedback"
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label htmlFor="fullname">Full name</Label>
-                  <Field
-                    name="fullname"
-                    type="text"
-                    className={
-                      'form-control' +
-                      (errors.fullname && touched.fullname ? ' is-invalid' : '')
-                    }
-                  />
-                  <ErrorMessage
-                    name="fullname"
-                    component="div"
-                    className="invalid-feedback"
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label htmlFor="phonenumber">Your phone</Label>
-                  <Field
-                    name="phonenumber"
-                    type="text"
-                    className={
-                      'form-control' +
-                      (errors.phonenumber && touched.phonenumber
-                        ? ' is-invalid'
-                        : '')
-                    }
-                  />
-                  <ErrorMessage
-                    name="phonenumber"
-                    component="div"
-                    className="invalid-feedback"
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label htmlFor="email">Email</Label>
-                  <Field
-                    name="email"
-                    type="text"
-                    className={
-                      'form-control' +
-                      (errors.email && touched.email ? ' is-invalid' : '')
-                    }
-                  />
-                  <ErrorMessage
-                    name="email"
-                    component="div"
-                    className="invalid-feedback"
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label htmlFor="birthdate">Birth date</Label>
-                  <Field
-                    name="birthdate"
-                    type="date"
-                    className={
-                      'form-control' +
-                      (errors.birthdate && touched.birthdate
-                        ? ' is-invalid'
-                        : '')
-                    }
-                  />
-                  <ErrorMessage
-                    name="birthdate"
-                    component="div"
-                    className="invalid-feedback"
-                  />
-                </FormGroup>
-                <div className="btnSubmit">
-                  <button type="submit">Edit</button>
-                </div>
-              </Form>
-            )}
+            fields={[
+              { label: 'Staff Code', name: 'staffcode', type: 'text' },
+              { label: 'Full name', name: 'fullname', type: 'text' },
+              { label: 'Your phone', name: 'phỏnenumber', type: 'text' },
+              { label: 'Email', name: 'email', type: 'text' },
+              { label: 'Birth Date', name: 'birthdate', type: 'text' },
+            ]}
+            buttonText="Edit"
           />
         </Box>
       </Modal>

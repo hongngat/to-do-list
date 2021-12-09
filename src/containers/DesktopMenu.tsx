@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Context } from '../contexts/Account';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const DesktopMenu = (props: any) => {
   const menuId = 'primary-search-account-menu';
@@ -28,7 +28,11 @@ const DesktopMenu = (props: any) => {
       open={props.isMenuOpen}
       onClose={props.handleMenuClose}
     >
-      <MenuItem onClick={props.handleMenuClose}>Profile</MenuItem>
+      <MenuItem>
+        <Link style={{ color: '#000' }} to="/profile">
+          Profile
+        </Link>
+      </MenuItem>
       <MenuItem onClick={onLogout}>Logout</MenuItem>
     </Menu>
   );

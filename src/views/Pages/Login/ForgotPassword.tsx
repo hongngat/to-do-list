@@ -4,6 +4,8 @@ import Box from '@mui/material/Box';
 import { FormStyle } from '../styled';
 import { ModalStyle } from '../../../themes/Modal';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
+import FormComponent from '../../../components/Form';
+
 const ForgotPassword = (props: any) => {
   const onSubmit = async (fields: any) => {
     console.log(fields);
@@ -13,33 +15,22 @@ const ForgotPassword = (props: any) => {
       <Box sx={ModalStyle}>
         <FormStyle.Title>Forgot Password</FormStyle.Title>
         <FormStyle.Paragraph>Welcome to us</FormStyle.Paragraph>
-        <Formik
+
+        <FormComponent
           initialValues={{
             email: '',
           }}
           onSubmit={onSubmit}
-          render={({ errors, touched }) => (
-            <Form>
-              <FormStyle.FormGroup>
-                <Field
-                  name="email"
-                  type="text"
-                  placeholder="Nhập email"
-                  className={
-                    'form-control' +
-                    (errors.email && touched.email ? ' is-invalid' : '')
-                  }
-                />
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  className="invalid-feedback"
-                />
-              </FormStyle.FormGroup>
-
-              <FormStyle.Button type="submit">Submit</FormStyle.Button>
-            </Form>
-          )}
+          fields={[
+            {
+              label: 'Email',
+              name: 'email',
+              type: 'text',
+              placeholder: 'Email',
+            },
+          ]}
+          buttonText="Change Password"
+          buttonWidth="100%"
         />
       </Box>
     </Modal>

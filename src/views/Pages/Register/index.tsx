@@ -8,6 +8,7 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useQuery } from 'react-query';
 import { getEmployee } from '../../../api/EmployeeAPI';
+import FormComponent from '../../../components/Form';
 
 const Register = () => {
   const emailRex = /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/;
@@ -50,82 +51,42 @@ const Register = () => {
           <FormStyle.FormBox>
             <FormStyle.Box>
               <FormStyle.Title>Register</FormStyle.Title>
-              <Formik
+              <FormComponent
                 initialValues={{
                   fullname: '',
                   email: '',
                   password: '',
                 }}
-                validationSchema={validate}
+                validate={validate}
                 onSubmit={onSubmit}
-                render={({ errors, touched }) => (
-                  <Form>
-                    <FormStyle.FormGroup>
-                      <Field
-                        name="fullname"
-                        type="text"
-                        placeholder="Fullname"
-                        className={
-                          'form-control' +
-                          (errors.fullname && touched.fullname
-                            ? ' is-invalid'
-                            : '')
-                        }
-                      />
-                      <ErrorMessage
-                        name="fullname"
-                        component="div"
-                        className="invalid-feedback"
-                      />
-                    </FormStyle.FormGroup>
-                    <FormStyle.FormGroup>
-                      <Field
-                        name="email"
-                        type="text"
-                        placeholder="Email"
-                        className={
-                          'form-control' +
-                          (errors.email && touched.email ? ' is-invalid' : '')
-                        }
-                      />
-                      <ErrorMessage
-                        name="email"
-                        component="div"
-                        className="invalid-feedback"
-                      />
-                    </FormStyle.FormGroup>
-                    <FormStyle.FormGroup>
-                      <Field
-                        name="password"
-                        type="text"
-                        placeholder="Password"
-                        className={
-                          'form-control' +
-                          (errors.password && touched.password
-                            ? ' is-invalid'
-                            : '')
-                        }
-                      />
-                      <ErrorMessage
-                        name="password"
-                        component="div"
-                        className="invalid-feedback"
-                      />
-                    </FormStyle.FormGroup>
-
-                    <FormStyle.Button type="submit">Register</FormStyle.Button>
-                    <FormStyle.FlexBetween style={{ marginTop: '10px' }}>
-                      <FormStyle.Link
-                        href="/login"
-                        fontSize="14px"
-                        color="#8D6ECC"
-                      >
-                        Already have an account? Login
-                      </FormStyle.Link>
-                    </FormStyle.FlexBetween>
-                  </Form>
-                )}
+                fields={[
+                  {
+                    label: 'Full Name',
+                    name: 'fullname',
+                    type: 'text',
+                    placeholder: 'Fullname',
+                  },
+                  {
+                    label: 'Email',
+                    name: 'email',
+                    type: 'text',
+                    placeholder: 'Email',
+                  },
+                  {
+                    label: 'Password',
+                    name: 'password',
+                    type: 'text',
+                    placeholder: 'Password',
+                  },
+                ]}
+                buttonText="Register"
+                buttonWidth="100%"
               />
+              <FormStyle.FlexBetween style={{ marginTop: '10px' }}>
+                <FormStyle.Link href="/login" fontSize="14px" color="#8D6ECC">
+                  Already have an account? Login
+                </FormStyle.Link>
+              </FormStyle.FlexBetween>
             </FormStyle.Box>
           </FormStyle.FormBox>
         </Grid>
